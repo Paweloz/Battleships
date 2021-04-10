@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextFlow;
 
 
@@ -51,12 +52,14 @@ public class GameWindow {
         nextPaneOf3.getChildren().add(nextShipOf3.getShip());
         paneOf2.getChildren().add(shipOf2.getShip());
 
+
         //Placing panes with ships into a VBox
         VBox storedShips = new VBox();
         storedShips.getChildren().addAll(paneOf2,labelShip2,paneOf3,labelShip3,nextPaneOf3,labelShip33,paneOf4,labelShip4,paneOf5,labelShip5);
         storedShips.setPadding(new Insets(10,10,10,50));
         storedShips.setSpacing(10);
         storedShips.setAlignment(Pos.CENTER_LEFT);
+        storedShips.toFront();
 
         //Setting a place for messages
         comunicates.getChildren().add(messages.getPlaceYourShip());
