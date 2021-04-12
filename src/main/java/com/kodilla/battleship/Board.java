@@ -1,8 +1,14 @@
 package com.kodilla.battleship;
 
+import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+
+/* Klasa tworząca plansze
+
+ */
 
 public class Board extends GridPane {
     boolean enemy;
@@ -11,7 +17,6 @@ public class Board extends GridPane {
 
     public Board(boolean enemy){
         this.enemy = enemy;
-        //grid.setVisible(true);
         grid.setGridLinesVisible(true);
         grid.setPadding(new Insets(10,10,10,30));
         grid.setHgap(1);
@@ -24,7 +29,6 @@ public class Board extends GridPane {
                 grid.add(cell, i, j);
             }
         }
-
     }
     public GridPane getGrid() {
         return grid;

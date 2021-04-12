@@ -9,6 +9,10 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+
+/* Główna klasa aplikacji, odpowiadająca za wyświetlanie głownego okna aplikacji.
+   Udostępnia widok menu */
+
 public class Main extends Application {
     private Scene scene,gameScene, instructionScene ;
     public static void main(String[] args) {
@@ -23,7 +27,7 @@ public class Main extends Application {
             BackgroundImage backgroundImage = new BackgroundImage(imageback, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
             Background background = new Background(backgroundImage);
 
-            // First Layout
+            // Menu Layout
             Button instruction = new Button("Instruction");
             instruction.setOnAction(event ->primaryStage.setScene(instructionScene));
 
@@ -33,6 +37,7 @@ public class Main extends Application {
             Button quitGame = new Button("Quit Game");
             quitGame.setOnAction(e -> primaryStage.close());
 
+            //Umieszczenie przycisków na dole ekranu w HBoxie
             HBox bottom = new HBox();
             bottom.setPadding(new Insets(10,10,30,10));
             bottom.setSpacing(100);
@@ -45,6 +50,7 @@ public class Main extends Application {
 
 
             // Instruction Layout
+            // Pobranie widoku okna instrukcji oraz dodanie do niego przycisku powrotu
             Button returnButton = new Button("Back to menu");
             returnButton.setOnAction(event -> primaryStage.setScene(scene));
 
@@ -57,6 +63,7 @@ public class Main extends Application {
             instructionScene = new Scene(instructionLayout,700,500);
 
             //Game Layout
+            //Pobranie widoku okna gry oraz dodanie do niego przycisku powrotu
             Button returnButton2 = new Button("Back to menu");
             returnButton2.setOnAction(event -> primaryStage.setScene(scene));
 
