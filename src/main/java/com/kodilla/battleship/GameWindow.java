@@ -47,21 +47,9 @@ public class GameWindow {
         Ship battleship = new Ship(20,20, Color.DARKBLUE, 4);
         Ship carrier = new Ship(20,20, Color.DARKBLUE, 5);
 
-        //Placing ships into a panes
-        carrierPane = carrier.getShipArena();
-        carrierPane = makeDragable.initialiaze(carrierPane, playerBoard);
-        battleshipPane = battleship.getShipArena();
-        battleshipPane = makeDragable.initialiaze(battleshipPane, playerBoard);
-        cruiserPane = cruiser.getShipArena();
-        cruiserPane = makeDragable.initialiaze(cruiserPane, playerBoard);
-        cruiserPane2 = crusier2.getShipArena();
-        cruiserPane2 = makeDragable.initialiaze(cruiserPane2, playerBoard);
-        patrolBoatPane = patrolBoat.getShipArena();
-        patrolBoatPane = makeDragable.initialiaze(patrolBoatPane, playerBoard);
-
-        //Placing panes with ships into a VBox
+        //Placing ships into a VBox
         VBox storedShips = new VBox();
-        storedShips.getChildren().addAll(patrolBoatPane, labelPatrolBoat, cruiserPane, labelCruiser, cruiserPane2, labelCruiser2, battleshipPane, labelBattleship, carrierPane, labelCarrier);
+        storedShips.getChildren().addAll(patrolBoat.getShip(), labelPatrolBoat, cruiser.getShip(), labelCruiser, crusier2.getShip(), labelCruiser2, battleship.getShip(), labelBattleship, carrier.getShip(), labelCarrier);
         storedShips.setPadding(new Insets(10,10,10,50));
         storedShips.setSpacing(10);
         storedShips.setAlignment(Pos.CENTER_LEFT);

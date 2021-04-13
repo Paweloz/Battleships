@@ -1,5 +1,7 @@
 package com.kodilla.battleship;
 
+import javafx.collections.ObservableList;
+import javafx.geometry.Bounds;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -17,39 +19,45 @@ public class MakeDragable {
     private double Yb;
     private Cell cell;
 
+    //            //  Próba pobrania komórki na którą najechał statek
+//            Bounds boundsInScene = board.localToScene(board.getBoundsInLocal());
+//
+//            for (int i=0;i<board.getChildren().size();i++) {
+//                   Xb = (int) (board.getChildren().get(i)).localToParent(board.getBoundsInParent()).getCenterX();
+//                   Yb = (int) board.getChildren().get(i).localToParent(board.getBoundsInParent()).getCenterY();
+//                System.out.println(Xb + " "+Yb+" event myszki : "+ (int)event.getSceneX()+" "+(int)event.getSceneY());
+//                   }
+
 
     public Pane initialiaze(Pane pane, GridPane board){
 
         pane.setOnMousePressed(event -> {
 
             if (event.getButton() == MouseButton.PRIMARY) {
-                pane.getParent().toFront();
+                pane.setMouseTransparent(true);
+                event.setDragDetect(true);
+                //pane.getParent().toFront();
                 x = pane.getTranslateX() - event.getSceneX();
                 y = pane.getTranslateY() - event.getSceneY();
-                double Y= pane.getChildren().get(0).getBoundsInLocal().getHeight(); // Metoda, która wypluwa mi rozmiar grupy obiektów
-                double X= pane.getChildren().get(0).getBoundsInLocal().getWidth();
             } else {
                 pane.getChildren().get(0).setRotate(90);
-                double X= pane.getChildren().get(0).getBoundsInLocal().getHeight(); // Metoda, która wypluwa mi rozmiar grupy obiektów
-                double Y= pane.getChildren().get(0).getBoundsInLocal().getWidth();
-            }});
-
-        pane.setOnDragOver(event -> {
-
+            }
         });
+
+        pane.setOnDragDetected(event -> {
+            pane.startFullDrag();
+        });
+
+        pane.setOnMouseDragged(event -> {
+
+            pane.setTranslateX(event.getSceneX() + x);
+            pane.setTranslateY(event.getSceneY() + y);
+        });
+
         pane.setOnMouseReleased(event -> {
-            //  Próba pobrania komórki na którą najechał statek
-            for (int i=0;i<board.getChildren().size();i++) {
-                   Xb =  board.getChildren().get(i).getScene().getWidth();
-                   Yb = board.getChildren().get(i).getScene().getHeight();
-                   if(board.contains(event.getX(),event.getY())){
-                       System.out.println("jest taki");
-                   }
-
-                }
-            System.out.println(board.getChildren().size());
-            //System.out.println("Xb + Yb" +Xb +" "+Yb);
+            pane.setMouseTransparent(false);
         });
+
         return pane;
     }
 

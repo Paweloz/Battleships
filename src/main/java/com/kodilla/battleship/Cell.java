@@ -29,6 +29,15 @@ public class Cell extends Rectangle {
             double Y = this.getCellY();
             System.out.println("Position x "+X+" and y "+Y+" and board belongs to enemy : " + board.isEnemy());
         });
+
+        this.setOnMouseDragEntered(event -> {
+            this.toFront();
+            System.out.println("Dragging detected");
+        });
+
+        this.setOnMouseDragReleased(event -> {
+            this.setFill(Color.RED);
+        });
     }
 
 
