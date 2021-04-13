@@ -1,10 +1,8 @@
 package com.kodilla.battleship;
 
-import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 /* Klasa tworząca plansze
 

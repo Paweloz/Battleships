@@ -1,7 +1,7 @@
-com/kodilla/battleship/MakeDragable.java
- com.kodilla.battleship.MakeDragable
-com/kodilla/battleship/Messages.java
- com.kodilla.battleship.Messages
+com/kodilla/battleship/Board.java
+ com.kodilla.battleship.Board
+com/kodilla/battleship/Main.java
+ com.kodilla.battleship.Main
 com/kodilla/battleship/InstructionWindow.java
  com.kodilla.battleship.InstructionWindow
 module-info.java
@@ -16,13 +16,11 @@ com/kodilla/battleship/Brudnopis.java
  com.kodilla.battleship.Brudnopis$6
  com.kodilla.battleship.Brudnopis$7
  com.kodilla.battleship.Brudnopis$8
+com/kodilla/battleship/Messages.java
+ com.kodilla.battleship.Messages
 com/kodilla/battleship/Ship.java
  com.kodilla.battleship.Ship
-com/kodilla/battleship/Board.java
- com.kodilla.battleship.Board
 com/kodilla/battleship/Cell.java
  com.kodilla.battleship.Cell
 com/kodilla/battleship/GameWindow.java
  com.kodilla.battleship.GameWindow
-com/kodilla/battleship/Main.java
- com.kodilla.battleship.Main

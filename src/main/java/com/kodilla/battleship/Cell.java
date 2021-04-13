@@ -5,16 +5,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /* Klasa odpowiadająca za działanie poszczególnych komórek planszy.
-   Odpowiada za ich tworzenie i reagowanie na umieszenie statku
+   Odpowiada za ich tworzenie i reagowanie na umieszenie statku */
 
- */
 public class Cell extends Rectangle {
 
     public int x, y;
     public Ship ship = null;
     public boolean wasShot = false;
 
-    private Board board;
+    private final Board board;
 
     public Cell(int x, int y, Board board) {
         super(20, 20);
@@ -30,6 +29,7 @@ public class Cell extends Rectangle {
 
         this.setOnMouseDragReleased(event -> {
             this.setFill(Color.RED);
+            System.out.println("Drag dropped");
         });
     }
 

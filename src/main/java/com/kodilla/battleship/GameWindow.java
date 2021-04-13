@@ -1,10 +1,8 @@
 package com.kodilla.battleship;
 
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
@@ -23,7 +21,6 @@ public class GameWindow {
     private Label labelCarrier = new Label("Carrier");
     private TextFlow comunicates = new TextFlow();
     private Messages messages = new Messages();
-    private MakeDragable makeDragable = new MakeDragable();
     private double x;
     private double y;
 
@@ -53,42 +50,22 @@ public class GameWindow {
         storedShips.setPadding(new Insets(10,10,10,50));
         storedShips.setSpacing(10);
         storedShips.setAlignment(Pos.CENTER_LEFT);
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         storedShips.setOnMousePressed(event -> {
-            if (event.getButton() == MouseButton.PRIMARY) {
-                event.consume();
                 storedShips.setMouseTransparent(true);
                 event.setDragDetect(true);
-                x = storedShips.getTranslateX() - event.getSceneX();
-                y = storedShips.getTranslateY() - event.getSceneY();
-
-            } else {
-                storedShips.setRotate(90);
-            }});
+        });
 
         storedShips.setOnDragDetected(event -> {
-            event.consume();
             storedShips.startFullDrag();
         });
 
 
-        storedShips.setOnMouseDragged(event -> {
-            event.consume();
-            event.setDragDetect(false);
-        });
-
         storedShips.setOnMouseReleased(event -> {
             storedShips.setMouseTransparent(false);
-
         });
-
-
-//        FlowPane storedShips = new FlowPane();
-//        storedShips.getChildren().addAll(patrolBoat.getShip(), labelPatrolBoat, cruiser.getShip(), labelCruiser, crusier2.getShip(), labelCruiser2, battleship.getShip(), labelBattleship, carrier.getShip(), labelCarrier);
-//        storedShips.setPadding(new Insets(10,10,10,50));
-//        storedShips.setHgap(20);
-//        storedShips.setVgap(20);
-//        storedShips.setAlignment(Pos.CENTER_LEFT);
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //Setting a place for messages
         comunicates.getChildren().add(messages.getPlaceYourShip());
