@@ -17,7 +17,6 @@ public class Ship extends Rectangle {
     private double y;
     private double width;
     private double height;
-    private boolean move = false;
     private Group ship = new Group();
 //    double Y=ship.getBoundsInLocal().getHeight(); // Metoda, która wypluwa mi rozmiar grupy obiektów
 //    double X=ship.getBoundsInLocal().getWidth();
@@ -56,9 +55,10 @@ public class Ship extends Rectangle {
 
 
         ship.setOnMouseDragged(event -> {
-
+            ship.getParent().toFront();
             ship.setTranslateX(event.getSceneX() + x);
             ship.setTranslateY(event.getSceneY() + y);
+            event.setDragDetect(false);
         });
 
         ship.setOnMouseReleased(event -> {

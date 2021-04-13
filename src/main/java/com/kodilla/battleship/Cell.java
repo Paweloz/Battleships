@@ -23,15 +23,8 @@ public class Cell extends Rectangle {
         this.board = board;
         setFill(Color.LIGHTBLUE);
 
-        this.setOnMouseReleased(event ->
-        {
-            double X = this.getCellX();
-            double Y = this.getCellY();
-            System.out.println("Position x "+X+" and y "+Y+" and board belongs to enemy : " + board.isEnemy());
-        });
 
         this.setOnMouseDragEntered(event -> {
-            this.toFront();
             System.out.println("Dragging detected");
         });
 

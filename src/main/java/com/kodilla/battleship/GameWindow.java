@@ -1,8 +1,10 @@
 package com.kodilla.battleship;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
@@ -10,13 +12,10 @@ import javafx.scene.text.TextFlow;
 
 public class GameWindow {
     private BorderPane mainPane = new BorderPane();
+
     private GridPane playerBoard = new Board(false).getGrid();
     private GridPane enemyBoard = new Board(true).getGrid();
-    private Pane carrierPane;
-    private Pane battleshipPane;
-    private Pane cruiserPane;
-    private Pane cruiserPane2;
-    private Pane patrolBoatPane;
+
     private Label labelPatrolBoat = new Label("Patrol Boat");
     private Label labelCruiser = new Label("Cruiser");
     private Label labelCruiser2 = new Label("Cruiser");
@@ -39,6 +38,7 @@ public class GameWindow {
         gamesBoards.getChildren().addAll(enemyLabel, enemyBoard, playerLabel, playerBoard);
         gamesBoards.setSpacing(10);
         gamesBoards.setAlignment(Pos.CENTER);
+        gamesBoards.toBack();
 
         //Creating Ships
         Ship patrolBoat = new Ship(20,20, Color.DARKBLUE, 2);
@@ -53,7 +53,42 @@ public class GameWindow {
         storedShips.setPadding(new Insets(10,10,10,50));
         storedShips.setSpacing(10);
         storedShips.setAlignment(Pos.CENTER_LEFT);
-        storedShips.toFront();
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        storedShips.setOnMousePressed(event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                event.consume();
+                storedShips.setMouseTransparent(true);
+                event.setDragDetect(true);
+                x = storedShips.getTranslateX() - event.getSceneX();
+                y = storedShips.getTranslateY() - event.getSceneY();
+
+            } else {
+                storedShips.setRotate(90);
+            }});
+
+        storedShips.setOnDragDetected(event -> {
+            event.consume();
+            storedShips.startFullDrag();
+        });
+
+
+        storedShips.setOnMouseDragged(event -> {
+            event.consume();
+            event.setDragDetect(false);
+        });
+
+        storedShips.setOnMouseReleased(event -> {
+            storedShips.setMouseTransparent(false);
+
+        });
+
+
+//        FlowPane storedShips = new FlowPane();
+//        storedShips.getChildren().addAll(patrolBoat.getShip(), labelPatrolBoat, cruiser.getShip(), labelCruiser, crusier2.getShip(), labelCruiser2, battleship.getShip(), labelBattleship, carrier.getShip(), labelCarrier);
+//        storedShips.setPadding(new Insets(10,10,10,50));
+//        storedShips.setHgap(20);
+//        storedShips.setVgap(20);
+//        storedShips.setAlignment(Pos.CENTER_LEFT);
 
         //Setting a place for messages
         comunicates.getChildren().add(messages.getPlaceYourShip());
@@ -64,8 +99,9 @@ public class GameWindow {
         mainPane.setPadding(new Insets(10,10,10,10));
         mainPane.setCenter(storedShips);
         mainPane.setLeft(gamesBoards);
-    }
 
+
+    }
     public BorderPane getMainPane() {
         return mainPane;
     }
