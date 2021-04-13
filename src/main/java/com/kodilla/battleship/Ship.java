@@ -1,13 +1,10 @@
 package com.kodilla.battleship;
 
-import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.effect.Effect;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,14 +14,17 @@ import java.util.List;
 
 public class Ship extends Rectangle {
     private final int type;
-    private double x;
-    private double y;
+    private double draggingX;
+    private double draggingY;
     private double width;
     private double height;
     private Group ship = new Group();
     private List<Rectangle> shipInList = new LinkedList<>();
-//    double Y=ship.getBoundsInLocal().getHeight(); // Metoda, która wypluwa mi rozmiar grupy obiektów
-//    double X=ship.getBoundsInLocal().getWidth();
+    private int pickedRectangle;
+    private boolean vertical = false;
+    private double shipTotalX;
+    private double shipTotalY;
+
 
 
 // Konstruktor przyjmuje wielkość statku oraz jego kolor,
@@ -36,14 +36,18 @@ public class Ship extends Rectangle {
         this.type = type;
 
         for(int i=0;i<type;i++){
-            Rectangle r = new Rectangle(0,0,width,height);
-            r.setFill(fill);
+            Rectangle r = new Rectangle(width,height,fill);
             r.setX(i*width+1);
             ship.getChildren().add(r);
             shipInList.add(r);
             r.setOnMousePressed(event -> {
-                r.setFill(Color.SADDLEBROWN);
+                if(event.getButton()==MouseButton.PRIMARY) {
+                    r.setId("x");
+                }
             });
+            shipTotalY = ship.getBoundsInLocal().getHeight(); // Metoda, która wypluwa mi rozmiar grupy obiektów
+            shipTotalX = ship.getBoundsInLocal().getWidth();
+            System.out.println(shipTotalX+" "+shipTotalY);
         }
         //Obsługa eventów press drag release dla grupy kwadratów tworzących statek
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,12 +56,18 @@ public class Ship extends Rectangle {
             if (event.getButton() == MouseButton.PRIMARY) {
                 ship.setMouseTransparent(true);
                 event.setDragDetect(true);
-                x = ship.getTranslateX() - event.getSceneX();
-                y = ship.getTranslateY() - event.getSceneY();
+                draggingX = ship.getTranslateX() - event.getSceneX();
+                draggingY = ship.getTranslateY() - event.getSceneY();
 
             } else {
-                ship.setRotate(90);
+                //ship.setRotate(ship.getRotate()+90);
+                ship.getTransforms().add(new Rotate(90));
+                shipTotalX = ship.getBoundsInLocal().getHeight(); // Metoda, która wypluwa mi rozmiar grupy obiektów
+                shipTotalY = ship.getBoundsInLocal().getWidth();
+                System.out.println(shipTotalX+" "+shipTotalY);
+                vertical = true;
         }});
+
 
         ship.setOnDragDetected(event -> {
             ship.startFullDrag();
@@ -66,8 +76,8 @@ public class Ship extends Rectangle {
 
         ship.setOnMouseDragged(event -> {
             ship.getParent().toFront();
-            ship.setTranslateX(event.getSceneX() + x);
-            ship.setTranslateY(event.getSceneY() + y);
+            ship.setTranslateX(event.getSceneX() + draggingX);
+            ship.setTranslateY(event.getSceneY() + draggingY);
             event.setDragDetect(false);
         });
 
@@ -75,9 +85,9 @@ public class Ship extends Rectangle {
             ship.setMouseTransparent(false);
             for (int i=0; i<shipInList.size();i++){
                 Rectangle r = shipInList.get(i);
-                if(r.getFill()!= Color.DARKBLUE){
-                    int position = i+1;
-                    System.out.println("Znaleziono kratke w innym kolorze w pozycji : "+position);
+                if(r.getId()=="x"){
+                    pickedRectangle = i+1;
+                    System.out.println("Znaleziono kratke w innym kolorze w pozycji : "+pickedRectangle);
                 }
             }
 
@@ -89,6 +99,10 @@ public class Ship extends Rectangle {
         return ship;
     }
 
+    public boolean isVertical() {
+        return vertical;
+    }
+
     public double getShipWidth() {
         return width;
     }
@@ -97,11 +111,5 @@ public class Ship extends Rectangle {
         return height;
     }
 
-    public void setShipX(double x) {
-        this.x = x;
-    }
 
-    public void setShipY(double y) {
-        this.y = y;
-    }
 }

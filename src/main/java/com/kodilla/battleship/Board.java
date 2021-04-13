@@ -28,6 +28,12 @@ public class Board extends GridPane {
             }
         }
     }
+
+    public boolean canPlaceShip( int pickedRectangle, double shipTotalX, double shipTotalY, Cell droppedOnCell, boolean vertical){
+
+        return true;
+    }
+
     public GridPane getGrid() {
         return grid;
     }
