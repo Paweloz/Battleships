@@ -11,8 +11,10 @@ import javafx.scene.text.TextFlow;
 public class GameWindow {
     private BorderPane mainPane = new BorderPane();
 
-    private GridPane playerBoard = new Board(false).getGrid();
-    private GridPane enemyBoard = new Board(true).getGrid();
+    private Board playerBoard = new Board(false);
+    private GridPane playerGrid = playerBoard.getGrid();
+    private Board enemyBoard = new Board(true);
+    private GridPane enemyGrid = enemyBoard.getGrid();
 
     private Label labelPatrolBoat = new Label("Patrol Boat");
     private Label labelCruiser = new Label("Cruiser");
@@ -32,17 +34,33 @@ public class GameWindow {
         VBox gamesBoards = new VBox();
         Label enemyLabel = new Label("Enemy Board");
         Label playerLabel = new Label("Player Board");
-        gamesBoards.getChildren().addAll(enemyLabel, enemyBoard, playerLabel, playerBoard);
+        gamesBoards.getChildren().addAll(enemyLabel, enemyGrid, playerLabel, playerGrid);
         gamesBoards.setSpacing(10);
         gamesBoards.setAlignment(Pos.CENTER);
         gamesBoards.toBack();
 
         //Creating Ships
-        Ship patrolBoat = new Ship(20,20, Color.DARKBLUE, 2);
-        Ship cruiser = new Ship(20,20, Color.DARKBLUE, 3);
-        Ship crusier2 = new Ship(20,20, Color.DARKBLUE, 3);
-        Ship battleship = new Ship(20,20, Color.DARKBLUE, 4);
-        Ship carrier = new Ship(20,20, Color.DARKBLUE, 5);
+        Ship patrolBoat = new Ship(20,20, Color.DARKBLUE, 2, playerBoard);
+        Ship cruiser = new Ship(20,20, Color.DARKBLUE, 3, playerBoard);
+        Ship crusier2 = new Ship(20,20, Color.DARKBLUE, 3, playerBoard);
+        Ship battleship = new Ship(20,20, Color.DARKBLUE, 4, playerBoard);
+        Ship carrier = new Ship(20,20, Color.DARKBLUE, 5, playerBoard);
+
+        Move moveShip1 = new Move(patrolBoat,playerBoard);
+        moveShip1.setShipMoves();
+        moveShip1.setBoardReaction();
+        Move moveShip2 = new Move(cruiser,playerBoard);
+        moveShip2.setShipMoves();
+        moveShip2.setBoardReaction();
+        Move moveShip3 = new Move(crusier2,playerBoard);
+        moveShip3.setShipMoves();
+        moveShip3.setBoardReaction();
+        Move moveShip4 = new Move(battleship,playerBoard);
+        moveShip4.setShipMoves();
+        moveShip4.setBoardReaction();
+        Move moveShip5 = new Move(carrier,playerBoard);
+        moveShip5.setShipMoves();
+        moveShip5.setBoardReaction();
 
         //Placing ships into a VBox
         VBox storedShips = new VBox();

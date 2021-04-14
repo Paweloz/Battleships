@@ -1,6 +1,7 @@
 package com.kodilla.battleship;
 
 
+import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -9,36 +10,31 @@ import javafx.scene.shape.Rectangle;
 
 public class Cell extends Rectangle {
 
-    public int x, y;
+    public double x, y;
+    private Point2D point2D;
     public Ship ship = null;
     public boolean hasShip;
     public boolean shipDroppedOn;
+    public boolean avaliable = true;
     public boolean wasShot = false;
 
     private final Board board;
 
-    public Cell(int x, int y, Board board) {
+    public Cell(double x, double y, Board board) {
         super(20, 20);
         this.x = x;
         this.y = y;
         this.board = board;
+        this.point2D = new Point2D(x,y);
         setFill(Color.LIGHTBLUE);
-
-
-        this.setOnMouseDragEntered(event -> {
-            System.out.println("Dragging detected");
-        });
-
-        this.setOnMouseDragReleased(event -> {
-            //board.canPlaceShip();
-            this.setFill(Color.RED);
-            shipDroppedOn = true;
-            System.out.println("Drag dropped");
-        });
     }
 
 
-    public int getCellX() {
+    public Point2D getCell(){
+        return point2D;
+    }
+
+    public double getCellX() {
         return x;
     }
 
@@ -46,7 +42,23 @@ public class Cell extends Rectangle {
         return shipDroppedOn;
     }
 
-    public int getCellY() {
+    public void setShipDroppedOn(boolean shipDroppedOn) {
+        this.shipDroppedOn = shipDroppedOn;
+    }
+
+    public boolean containsShip() {
+        return hasShip;
+    }
+
+    public boolean isAvaliable() {
+        return avaliable;
+    }
+
+    public void setAvaliable(boolean avaliable) {
+        this.avaliable = avaliable;
+    }
+
+    public double getCellY() {
         return y;
     }
 }

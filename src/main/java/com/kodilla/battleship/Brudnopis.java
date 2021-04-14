@@ -1,149 +1,192 @@
 package com.kodilla.battleship;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.scene.text.Text;
+import javafx.scene.control.Button;
 
-class Brudnopis extends Application
-{
-    // Create the TextFields
-    TextField sourceFld = new TextField("This is the Source Text");
-    TextField targetFld = new TextField("Drag and drop the source text here");
+import java.util.Random;
 
-    // Create the LoggingArea
-    TextArea loggingArea = new TextArea("");
 
-    public static void main(String[] args)
-    {
-            launch(args);
-    }
+public class Brudnopis extends Application {
+
+    private char player = 'X';
+    private Cell[][] board = new Cell[3][3];
+    private Button button = new Button("Start new game");
+    private Label label = new Label("");
+    private GridPane gridPane = new GridPane();
 
     @Override
-    public void start(Stage stage)
-    {
-        // Set the Size of the TextFields
-        sourceFld.setPrefSize(200, 20);
-        targetFld.setPrefSize(200, 20);
+    public void start(Stage primaryStage) throws Exception {
 
-        // Create the Labels
-        Label sourceLbl = new Label("Source Node:");
-        Label targetLbl = new Label("Target Node:");
+        gridPane.setPadding(new Insets(40));
+        gridPane.setAlignment(Pos.CENTER);
 
-        // Create the GridPane
-        GridPane pane = new GridPane();
-        pane.setHgap(5);
-        pane.setVgap(20);
+        BorderPane borderPane = new BorderPane();
+        borderPane.setPadding(new Insets(50));
 
-        // Add the Labels and Fields to the Pane
-        pane.addRow(0, sourceLbl, sourceFld);
-        pane.addRow(1, targetLbl, targetFld);
-
-        // Add mouse event handlers for the source
-        sourceFld.setOnMousePressed(new EventHandler <MouseEvent>()
-        {
-            public void handle(MouseEvent event)
-            {
-                sourceFld.setMouseTransparent(true);
-                writelog("Event on Source: mouse pressed");
-                event.setDragDetect(true);
+        EventHandler<ActionEvent> buttonEvent = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                createNewBoard();
             }
-        });
+        };
+        button.setOnAction(buttonEvent);
 
-        sourceFld.setOnMouseReleased(new EventHandler <MouseEvent>()
-        {
-            public void handle(MouseEvent event)
-            {
-                sourceFld.setMouseTransparent(false);
-                writelog("Event on Source: mouse released");
-            }
-        });
+        BorderPane.setAlignment(button, Pos.BOTTOM_CENTER);
+        borderPane.setBottom(button);
 
-        sourceFld.setOnMouseDragged(new EventHandler <MouseEvent>()
-        {
-            public void handle(MouseEvent event)
-            {
-                writelog("Event on Source: mouse dragged");
-                event.setDragDetect(false);
-            }
-        });
+        BorderPane.setAlignment(label, Pos.TOP_CENTER);
+        label.setFont(new Font(30));
+        borderPane.setTop(label);
 
-        sourceFld.setOnDragDetected(new EventHandler <MouseEvent>()
-        {
-            public void handle(MouseEvent event)
-            {
-                sourceFld.startFullDrag();
-                writelog("Event on Source: drag detected");
-            }
-        });
+        borderPane.setCenter(gridPane);
 
-        // Add mouse event handlers for the target
-        targetFld.setOnMouseDragEntered(new EventHandler <MouseDragEvent>()
-        {
-            public void handle(MouseDragEvent event)
-            {
-                writelog("Event on Target: mouse dragged");
-            }
-        });
-
-        targetFld.setOnMouseDragOver(new EventHandler <MouseDragEvent>()
-        {
-            public void handle(MouseDragEvent event)
-            {
-                writelog("Event on Target: mouse drag over");
-            }
-        });
-
-        targetFld.setOnMouseDragReleased(new EventHandler <MouseDragEvent>()
-        {
-            public void handle(MouseDragEvent event)
-            {
-                targetFld.setText(sourceFld.getSelectedText());
-                writelog("Event on Target: mouse drag released");
-            }
-        });
-
-        targetFld.setOnMouseDragExited(new EventHandler <MouseDragEvent>()
-        {
-            public void handle(MouseDragEvent event)
-            {
-                writelog("Event on Target: mouse drag exited");
-            }
-        });
-
-        // Create the VBox
-        VBox root = new VBox();
-        // Add the Pane and The LoggingArea to the VBox
-        root.getChildren().addAll(pane,loggingArea);
-        // Set the Style of the VBox
-        root.setStyle("-fx-padding: 10;" +
-                "-fx-border-style: solid inside;" +
-                "-fx-border-width: 2;" +
-                "-fx-border-insets: 5;" +
-                "-fx-border-radius: 5;" +
-                "-fx-border-color: blue;");
-
-        // Create the Scene
-        Scene scene = new Scene(root,300,200);
-        // Add the Scene to the Stage
-        stage.setScene(scene);
-        // Set the Title
-        stage.setTitle("A Press Drag Release Example");
-        // Display the Stage
-        stage.show();
+        Scene scene = new Scene(borderPane, 540, 550);
+        primaryStage.setTitle("Tic Tac Toe Game");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
+    public void createNewBoard() {
+        gridPane.getChildren().clear();
+        label.setText("");
 
-    // Helper Method for Logging
-    private void writelog(String text)
-    {
-        this.loggingArea.appendText(text + "\n");
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                board[j][i] = new Cell();
+                gridPane.add(board[j][i], j, i);
+                player = 'X';
+            }
+        }
     }
+
+    //determine if there is empty token
+    public boolean isBoardFull() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (board[j][i].getToken() == ' ') {
+                    return false; //continue game if there is empty token
+                }
+            }
+        }
+        return true; //break game if board if full
+    }
+
+    //determine if any player won
+    public boolean ifPlayerWon(char token) {
+
+        //horizontal or vertical
+        for (int i = 0; i < 3; i++) {
+            if (board[i][0].getToken() == token && board[i][1].getToken() == token && board[i][2].getToken() == token ||
+                    board[0][i].getToken() == token && board[1][i].getToken() == token && board[2][i].getToken() == token) {
+                return true;
+            }
+        }
+
+        //diagonal
+        if (board[0][0].getToken() == token && board[1][1].getToken() == token && board[2][2].getToken() == token ||
+                board[0][2].getToken() == token && board[1][1].getToken() == token && board[2][0].getToken() == token) {
+            return true;
+
+        }
+        return false;
+    }
+
+    public class Cell extends Pane {
+
+        private char token = ' ';
+        private Random random = new Random();
+
+        public Cell() {
+            setStyle("-fx-border-color: black");
+            setPrefSize(100, 100);
+            setOnMouseClicked(event -> mouseEvent());
+        }
+
+        //move of computer player
+        private void computerMove() {
+            int temp = 0;
+            while (temp == 0) {
+                int randomRow = random.nextInt(3);
+                int randomColumn = random.nextInt(3);
+                if (board[randomRow][randomColumn].getToken() == ' ') {
+                    board[randomRow][randomColumn].setToken(player);
+                    temp = 1;
+                }
+            }
+        }
+
+        public char getToken() {
+            return token;
+        }
+
+        //setting tokens
+        public void setToken(char sign) {
+            token = sign;
+
+            if (token == 'X') {
+                Text text = new Text("X");
+                setShape(text);
+                setStyle("-fx-border-color: blue");
+
+
+            } else if (token == 'O') {
+                Text text = new Text("O");
+                setShape(text);
+                setStyle("-fx-border-color: red");
+            }
+        }
+
+        //what happens when player clicks mouse
+        private void mouseEvent() {
+            if (token == ' ' && player != 'E') { //if cell is empty and game continues
+                setToken(player);
+                checkState();
+            }
+        }
+
+        private void checkState() {
+            while (player != 'E') { //if game continues
+                if (player == 'X') { //if now is player's turn
+                    setOnMouseClicked(event -> mouseEvent());
+
+                    if (ifPlayerWon(player)) {
+                        player = 'E'; //end game if player won
+                        label.setText("YOU WON!");
+                    } else if (isBoardFull()) {
+                        player = 'E'; //end game if there is no empty token
+                    } else {
+                        player = 'O'; //change player
+                    }
+
+                } else if (player == 'O') { //if now is computer's turn
+                    computerMove();
+
+                    if (ifPlayerWon(player)) {
+                        player = 'E'; //end game if computer won
+                        label.setText("YOU LOST!");
+                    } else if (isBoardFull()) {
+                        player = 'E'; //end game if there is no empty token
+                    } else {
+                        player = 'X'; //change player
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
 }
