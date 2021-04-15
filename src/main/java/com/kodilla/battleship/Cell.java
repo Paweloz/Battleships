@@ -18,7 +18,7 @@ public class Cell extends Rectangle {
     public boolean avaliable = true;
     public boolean wasShot = false;
 
-    private final Board board;
+    private Board board= null;
 
     public Cell(double x, double y, Board board) {
         super(20, 20);
@@ -27,7 +27,13 @@ public class Cell extends Rectangle {
         this.board = board;
         this.point2D = new Point2D(x,y);
         setFill(Color.LIGHTBLUE);
-        this.setOnMouseClicked(event -> System.out.println("Komórka "+x +" "+y));
+        this.setOnMouseClicked(event -> System.out.println("Komórka X :"+x +" Y: "+y));
+    }
+
+    public Cell(double x, double y){
+        super(20,20);
+        this.x = x;
+        this.y = y;
     }
 
 
@@ -49,6 +55,10 @@ public class Cell extends Rectangle {
 
     public boolean containsShip() {
         return hasShip;
+    }
+
+    public void setHasShip(boolean hasShip) {
+        this.hasShip = hasShip;
     }
 
     public boolean isAvaliable() {

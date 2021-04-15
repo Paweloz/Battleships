@@ -17,6 +17,7 @@ public class Move {
     private Ship ship;
     private Group shipGroup;
     private Board board;
+    List<Cell> cellsWithShip = new LinkedList<>();
     private int x;
     private int y;
 
@@ -68,6 +69,7 @@ public class Move {
                 canPlaceShip(ship.getPickedRectangle(), ship.getShipTotalX(),ship.getShipTotalY(),board ,ship.isVertical());
             }catch (NullPointerException e){
             }
+            setNeighborhood();
 
         });
     }
@@ -85,12 +87,10 @@ public class Move {
     // Metoda sprawdzajaca możliwość upuszczenia statku na planszy
     public List<Cell> canPlaceShip(int pickedRectangle, double shipTotalX, double shipTotalY, Board board, boolean vertical){
         List<Cell> cellForShip = new LinkedList<>(); // serio potrzebne ?
-        List<Cell> cellsWithShip = new LinkedList<>();
         Cell droppedCell = null;
         //Ilość komórek zajętych przez statek w osiX i Y
         double shipCellsX = shipTotalX/20;
         double shipCellsY = shipTotalY/20;
-
 
         // Przeszukuje plansze w poszukiwaniu komórki na którą spadł statek
         // Pobiera ją, a następnie zeruje jej parametr,
@@ -101,7 +101,7 @@ public class Move {
                 count += 1;
                 droppedCell = cell;
                 cell.setShipDroppedOn(false);
-                System.out.println("Ilość komórek na które został upuszczony statek :"+count);
+                //System.out.println("Ilość komórek na które został upuszczony statek :"+count);
             }
         }
 
@@ -113,8 +113,8 @@ public class Move {
         }
 
 
-        System.out.println("Statek umieszczony w komórce :"+ droppedCell.getCellX()+" "+droppedCell.getCellY());
-        System.out.println("Długość statku to :"+ shipCellsX+"w poziomie, oraz "+shipCellsY+" w pionie");
+        //System.out.println("Statek umieszczony w komórce :"+ droppedCell.getCellX()+" "+droppedCell.getCellY());
+        //System.out.println("Długość statku to :"+ shipCellsX+"w poziomie, oraz "+shipCellsY+" w pionie");
 
         //TODO Ustalanie sąsiedztwa dla statku
         //TODO Sprawdzenie legalnośći położenia statku
@@ -122,28 +122,33 @@ public class Move {
         if(!vertical){
             double requiredOnTheLeft = pickedRectangle - 1;
             double requiredOnTheRight = shipCellsX - pickedRectangle;
-            System.out.println("requiredOnTheLeft :"+requiredOnTheLeft+"\n requiredOnTheRight :"+ requiredOnTheRight);
-            System.out.println("Statek podniesiony w pkt nr "+pickedRectangle);
+
             if(droppedCell.isAvaliable()){
                 //Zaznaczanie wymaganych pól na lewo od miejsca upuszczcenia statu
-                for (double i = droppedCell.getCellX(); i>=(droppedCell.getCellX()-requiredOnTheLeft);i--){
-                    for(Cell cell : board.getCellList()){
-                        if(cell.equals(droppedCell)){
-                            cell.setFill(Color.DARKBLUE);
-                            cell.setAvaliable(false);
-                        }
-                        if(cell.getCellX()==i && cell.getCellY()==droppedCell.getCellY()){
-                            cell.setFill(Color.DARKBLUE);
-                            cell.setAvaliable(false);
-                        }
+                for (double i = droppedCell.getCellX()-1; i>=(droppedCell.getCellX()-requiredOnTheLeft);i--){
+                    for(Cell cell : board.getCellList()) {
+                            if (cell.equals(droppedCell)) {
+                                cell.setFill(Color.DARKBLUE);
+                                cell.setAvaliable(false);
+                                cell.setHasShip(true);
+                                cellsWithShip.add(cell);
+                            }
+                            if (cell.getCellX() == i && cell.getCellY() == droppedCell.getCellY()) {
+                                cell.setFill(Color.DARKBLUE);
+                                cell.setAvaliable(false);
+                                cell.setHasShip(true);
+                                cellsWithShip.add(cell);
+                            }
                     }
                     // Zaznaczanie wymaganych pól na prawo od miejsca upuszczenia statku
                 }for (double j = droppedCell.getCellX(); j<=(droppedCell.getCellX()+requiredOnTheRight);j++){
                     for(Cell cell : board.getCellList()){
-                        if(cell.getCellX()==j && cell.getCellY()==droppedCell.getCellY()){
-                            cell.setFill(Color.DARKBLUE);
-                            cell.setAvaliable(false);
-                        }
+                            if (cell.getCellX() == j && cell.getCellY() == droppedCell.getCellY()) {
+                                cell.setFill(Color.DARKBLUE);
+                                cell.setAvaliable(false);
+                                cell.setHasShip(true);
+                                cellsWithShip.add(cell);
+                            }
                     }
                 }
                 shipGroup.setVisible(false);
@@ -154,8 +159,7 @@ public class Move {
         }else {
             double requiredOnTheTop = pickedRectangle - 1;
             double requiredOnTheBottom = shipCellsY - pickedRectangle;
-            System.out.println("requiredOnTheLeft :"+requiredOnTheTop+"\n requiredOnTheRight :"+ requiredOnTheBottom);
-            System.out.println("Statek podniesiony w pkt nr "+pickedRectangle);
+
             if(droppedCell.isAvaliable()){
                 //Zaznaczanie wymaganych w górę od miejsca upuszczcenia statu
                 for (double i = droppedCell.getCellY(); i>=(droppedCell.getCellY()-requiredOnTheTop);i--){
@@ -163,10 +167,14 @@ public class Move {
                         if(cell.equals(droppedCell)){
                             cell.setFill(Color.DARKBLUE);
                             cell.setAvaliable(false);
+                            cell.setHasShip(true);
+                            cellsWithShip.add(cell);
                         }
                         if(cell.getCellY()==i && cell.getCellX()==droppedCell.getCellX()){
                             cell.setFill(Color.DARKBLUE);
                             cell.setAvaliable(false);
+                            cell.setHasShip(true);
+                            cellsWithShip.add(cell);
                         }
                     }
                     // Zaznaczanie wymaganych w dół od miejsca upuszczenia statku
@@ -175,6 +183,8 @@ public class Move {
                         if(cell.getCellY()==j && cell.getCellX()==droppedCell.getCellX()){
                             cell.setFill(Color.DARKBLUE);
                             cell.setAvaliable(false);
+                            cell.setHasShip(true);
+                            cellsWithShip.add(cell);
                         }
                     }
                 }
@@ -182,9 +192,48 @@ public class Move {
 
             }
         }
-
-
         return cellForShip;
+    }
+
+    // Ustalanie sąsiedzctwa dla statków
+    public void setNeighborhood(){
+
+        for (Cell cell : cellsWithShip){
+            Cell temp = new Cell(cell.getCellX(),cell.getCellY());
+            for(Cell cell1 : board.getCellList()){
+                if(cell1.getCellX()==temp.getCellX() && cell1.getCellY() == temp.getCellY()-1){
+                    cell1.setFill(Color.LIGHTGRAY);
+                    cell1.setAvaliable(false);
+                }
+                if(cell1.getCellX()==temp.getCellX() && cell1.getCellY() == temp.getCellY()+1){
+                    cell1.setFill(Color.LIGHTGRAY);
+                    cell1.setAvaliable(false);
+                }
+                if(cell1.getCellX()==temp.getCellX()-1 && cell1.getCellY()==temp.getCellY() && !cell1.containsShip()){
+                    cell1.setFill(Color.LIGHTGRAY);
+                    cell1.setAvaliable(false);
+                }
+                if(cell1.getCellX()==temp.getCellX()+1 && cell1.getCellY()==temp.getCellY() && !cell1.containsShip()){
+                    cell1.setFill(Color.LIGHTGRAY);
+                    cell1.setAvaliable(false);
+                }
+                if(cell1.getCellX()==temp.getCellX()+1 && cell1.getCellY()==temp.getCellY()+1 && !cell1.containsShip()){
+                    cell1.setFill(Color.LIGHTGRAY);
+                    cell1.setAvaliable(false);
+                }
+                if(cell1.getCellX()==temp.getCellX()+1 && cell1.getCellY()==temp.getCellY()-1 && !cell1.containsShip()){
+                    cell1.setFill(Color.LIGHTGRAY);
+                    cell1.setAvaliable(false);
+                }if(cell1.getCellX()==temp.getCellX()-1 && cell1.getCellY()==temp.getCellY()+1 && !cell1.containsShip()){
+                    cell1.setFill(Color.LIGHTGRAY);
+                    cell1.setAvaliable(false);
+                }
+                if(cell1.getCellX()==temp.getCellX()-1 && cell1.getCellY()==temp.getCellY()-1 && !cell1.containsShip()){
+                    cell1.setFill(Color.LIGHTGRAY);
+                    cell1.setAvaliable(false);
+                }
+            }
+        }
     }
 
 
