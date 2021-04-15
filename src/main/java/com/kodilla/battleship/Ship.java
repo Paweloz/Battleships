@@ -43,6 +43,7 @@ public class Ship extends Rectangle {
         for (int i = 0; i < type; i++) {
             Rectangle r = new Rectangle(width, height, fill);
             r.setX(i * width + 1);
+            r.setStroke(Color.BLUE);
             ship.getChildren().add(r);
             shipInList.add(r);
             r.setOnMousePressed(event -> {
@@ -50,7 +51,9 @@ public class Ship extends Rectangle {
                     r.setId("x");
                 }
             });
-
+            r.setOnMouseReleased(event -> {
+                r.setId(null);
+            });
         }
     }
 

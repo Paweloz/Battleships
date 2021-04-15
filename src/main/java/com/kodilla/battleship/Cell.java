@@ -27,6 +27,7 @@ public class Cell extends Rectangle {
         this.board = board;
         this.point2D = new Point2D(x,y);
         setFill(Color.LIGHTBLUE);
+        this.setOnMouseClicked(event -> System.out.println("Komórka "+x +" "+y));
     }
 
 

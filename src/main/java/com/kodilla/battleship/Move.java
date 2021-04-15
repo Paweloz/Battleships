@@ -10,6 +10,7 @@ import javafx.scene.transform.Rotate;
 import java.util.LinkedList;
 import java.util.List;
 
+/* Klasa udostępniajaca funkcjonalność ruchu dla statków oraz reakcji dla planszy */
 public class Move {
     private double draggingX;
     private double draggingY;
@@ -63,8 +64,11 @@ public class Move {
 /////////////////////////////////////////////////////////////////////////////Tutaj zakoduj poprawne umieszczanie statków
         shipGroup.setOnMouseReleased(event -> {
             shipGroup.setMouseTransparent(false);
-            canPlaceShip(ship.getPickedRectangle(), ship.getShipTotalX(),ship.getShipTotalY(),board ,ship.isVertical());
-            ship.setPickedRectangle(0);
+            try {
+                canPlaceShip(ship.getPickedRectangle(), ship.getShipTotalX(),ship.getShipTotalY(),board ,ship.isVertical());
+            }catch (NullPointerException e){
+            }
+
         });
     }
 
@@ -72,9 +76,7 @@ public class Move {
 
         for (Cell cell : board.getCellList()){
             cell.setOnMouseDragReleased(event ->{
-                cell.setFill(Color.RED);
                 cell.setShipDroppedOn(true);
-                cell.setAvaliable(false);
             });
         }
     }
@@ -84,47 +86,101 @@ public class Move {
     public List<Cell> canPlaceShip(int pickedRectangle, double shipTotalX, double shipTotalY, Board board, boolean vertical){
         List<Cell> cellForShip = new LinkedList<>(); // serio potrzebne ?
         List<Cell> cellsWithShip = new LinkedList<>();
-        Point2D droppedOnCell = new Point2D(0,0);
         Cell droppedCell = null;
+        //Ilość komórek zajętych przez statek w osiX i Y
         double shipCellsX = shipTotalX/20;
         double shipCellsY = shipTotalY/20;
 
 
         // Przeszukuje plansze w poszukiwaniu komórki na którą spadł statek
+        // Pobiera ją, a następnie zeruje jej parametr,
+        // aby zawsze była tylko 1 komórka na którą spadł w danej chwili statek.
         for(Cell cell : board.getCellList()){
+            int count =0;
             if(cell.isShipDroppedOn()){
-                droppedOnCell = cell.getCell();
+                count += 1;
                 droppedCell = cell;
                 cell.setShipDroppedOn(false);
-                cell.setFill(Color.LIGHTBLUE);
+                System.out.println("Ilość komórek na które został upuszczony statek :"+count);
             }
         }
+
         // Przeszukuje plansze w poszukiwaniu komórek na których jest już inny statek
         for(Cell cell : board.getCellList()){
             if(cell.containsShip()){
-                cell.setAvaliable(false);
                 cellsWithShip.add(cell);
             }
         }
-        System.out.println("Statek umieszczony w komórce :"+ droppedOnCell);
+
+
+        System.out.println("Statek umieszczony w komórce :"+ droppedCell.getCellX()+" "+droppedCell.getCellY());
         System.out.println("Długość statku to :"+ shipCellsX+"w poziomie, oraz "+shipCellsY+" w pionie");
 
-        //
+        //TODO Ustalanie sąsiedztwa dla statku
+        //TODO Sprawdzenie legalnośći położenia statku
+        //Umieszczanie statku w poziomie
         if(!vertical){
-            for(double i=0;i<shipCellsX;i++) {
-                if (board.getCell(droppedCell.getCellX()+i,droppedCell.getCellY()).isAvaliable()){
-                    for (double j=0; j<shipCellsY;j++){
-                        if (board.getCell(droppedCell.getCellX(), droppedCell.getCellY()+j).isAvaliable()){
-
+            double requiredOnTheLeft = pickedRectangle - 1;
+            double requiredOnTheRight = shipCellsX - pickedRectangle;
+            System.out.println("requiredOnTheLeft :"+requiredOnTheLeft+"\n requiredOnTheRight :"+ requiredOnTheRight);
+            System.out.println("Statek podniesiony w pkt nr "+pickedRectangle);
+            if(droppedCell.isAvaliable()){
+                //Zaznaczanie wymaganych pól na lewo od miejsca upuszczcenia statu
+                for (double i = droppedCell.getCellX(); i>=(droppedCell.getCellX()-requiredOnTheLeft);i--){
+                    for(Cell cell : board.getCellList()){
+                        if(cell.equals(droppedCell)){
+                            cell.setFill(Color.DARKBLUE);
+                            cell.setAvaliable(false);
+                        }
+                        if(cell.getCellX()==i && cell.getCellY()==droppedCell.getCellY()){
+                            cell.setFill(Color.DARKBLUE);
+                            cell.setAvaliable(false);
+                        }
+                    }
+                    // Zaznaczanie wymaganych pól na prawo od miejsca upuszczenia statku
+                }for (double j = droppedCell.getCellX(); j<=(droppedCell.getCellX()+requiredOnTheRight);j++){
+                    for(Cell cell : board.getCellList()){
+                        if(cell.getCellX()==j && cell.getCellY()==droppedCell.getCellY()){
+                            cell.setFill(Color.DARKBLUE);
+                            cell.setAvaliable(false);
                         }
                     }
                 }
-
+                shipGroup.setVisible(false);
             }
 
 
+        //Tutaj to samo sprawdzenie tylko dla statku w pionie
         }else {
-            //Tutaj to samo sprawdzenie tylko dla statku w pionie
+            double requiredOnTheTop = pickedRectangle - 1;
+            double requiredOnTheBottom = shipCellsY - pickedRectangle;
+            System.out.println("requiredOnTheLeft :"+requiredOnTheTop+"\n requiredOnTheRight :"+ requiredOnTheBottom);
+            System.out.println("Statek podniesiony w pkt nr "+pickedRectangle);
+            if(droppedCell.isAvaliable()){
+                //Zaznaczanie wymaganych w górę od miejsca upuszczcenia statu
+                for (double i = droppedCell.getCellY(); i>=(droppedCell.getCellY()-requiredOnTheTop);i--){
+                    for(Cell cell : board.getCellList()){
+                        if(cell.equals(droppedCell)){
+                            cell.setFill(Color.DARKBLUE);
+                            cell.setAvaliable(false);
+                        }
+                        if(cell.getCellY()==i && cell.getCellX()==droppedCell.getCellX()){
+                            cell.setFill(Color.DARKBLUE);
+                            cell.setAvaliable(false);
+                        }
+                    }
+                    // Zaznaczanie wymaganych w dół od miejsca upuszczenia statku
+                }for (double j = droppedCell.getCellY(); j<=(droppedCell.getCellY()+requiredOnTheBottom);j++){
+                    for(Cell cell : board.getCellList()){
+                        if(cell.getCellY()==j && cell.getCellX()==droppedCell.getCellX()){
+                            cell.setFill(Color.DARKBLUE);
+                            cell.setAvaliable(false);
+                        }
+                    }
+                }
+                shipGroup.setVisible(false);
+
+            }
         }
 
 
