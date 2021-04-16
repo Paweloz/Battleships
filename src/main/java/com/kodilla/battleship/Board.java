@@ -111,7 +111,6 @@ public class Board extends GridPane {
             //Ilość komórek w liście dla statku, musi być równa rozmiarowi statku
             //Sprawdza, czy żadne z potencajlnych pól statku nie zwróciło false, a następenie umieszcza statek na planszy
             if (canPlaceShip) {
-                System.out.println("Ilość komórek " + (cellsForShip.size()) + " total X " + (int) shipTotalX / 20 + " total Y "+ (int) shipTotalY/20);
                 if (cellsForShip.size()== shipTotalX/20 && !vertical) {
                     for (Cell cell : this.getCellList()) {
                         for (Cell cell1 : cellsForShip) {

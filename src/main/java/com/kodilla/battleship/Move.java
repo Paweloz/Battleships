@@ -106,22 +106,13 @@ public class Move {
                 double requiredOnTheRight = shipTotalX/20 - pickedRectangle;
 
                 if (droppedCell.isAvaliable()) {
-                    for (Cell cell :  board.getCellList()){
-                        if (cell.equals(droppedCell)) {
-                            cellList.add(cell);
-                        }
-                    }
 
                     //Zaznaczanie wymaganych pól na lewo od miejsca upuszczcenia statu
-                    for (double i = droppedCell.getCellX() - 1; i >= (droppedCell.getCellX() - requiredOnTheLeft); i--) {
+                    for (double i = droppedCell.getCellX(); i >= (droppedCell.getCellX() - requiredOnTheLeft); i--) {
                         for (Cell cell : board.getCellList()) {
                             if (cell.getCellX() == i && cell.getCellY() == droppedCell.getCellY()) {
                                 if(cell.isAvaliable()) {
                                     cellList.add(cell);
-                                    for (Cell cell2 : cellList){
-                                        System.out.println( cell2.getCellX()+" "+cell2.getCellY());
-                                    }
-                                    System.out.println(cellList.size());
                                 }else{
                                     canPlaceShip = false;
                                 }
@@ -129,7 +120,7 @@ public class Move {
                         }
                         // Zaznaczanie wymaganych pól na prawo od miejsca upuszczenia statku
                     }
-                    for (double j = droppedCell.getCellX(); j <= (droppedCell.getCellX() + requiredOnTheRight); j++) {
+                    for (double j = droppedCell.getCellX()+1; j <= (droppedCell.getCellX() + requiredOnTheRight); j++) {
                         for (Cell cell : board.getCellList()) {
                             if (cell.getCellX() == j && cell.getCellY() == droppedCell.getCellY()) {
                                 if(cell.isAvaliable()) {
@@ -142,6 +133,7 @@ public class Move {
                         }
                     }
                 }
+
                 //Tutaj to samo sprawdzenie tylko dla statku w pionie
             } else {
                 double requiredOnTheTop = pickedRectangle - 1;
@@ -151,6 +143,7 @@ public class Move {
                     for(Cell cell : board.getCellList()){
                         if (cell.equals(droppedCell)) {
                             cellList.add(cell);
+                            cell.setAvaliable(false);
                         }
                     }
 
@@ -179,12 +172,11 @@ public class Move {
                     }
                 }
             }
-            //TODO Sprawdzenie wartosci granicznych planszy
+
         //Ilość komórek w liście dla statku, musi być równa rozmiarowi statku
         //Sprawdza, czy żadne z potencajlnych pól statku nie zwróciło false, a następenie umieszcza statek na planszy
             if(canPlaceShip){
-                System.out.println(cellList.size()+" "+ship.getType());
-                if(cellList.size()-1 == ship.getType()) {
+                if(cellList.size() == ship.getType()) {
                     for (Cell cell : board.getCellList()) {
                         for (Cell cell1 : cellList) {
                             if (cell.getCellX() == cell1.getCellX() && cell.getCellY() == cell1.getCellY()) {
@@ -199,7 +191,6 @@ public class Move {
                     shipGroup.setVisible(true);
                 }
             }
-
     }
 
     // Ustalanie sąsiedzctwa dla statków
