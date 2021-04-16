@@ -17,6 +17,7 @@ public class Cell extends Rectangle {
     public boolean shipDroppedOn;
     public boolean avaliable = true;
     public boolean wasShot = false;
+    private boolean egde;
 
     private Board board= null;
 
@@ -59,6 +60,14 @@ public class Cell extends Rectangle {
 
     public void setHasShip(boolean hasShip) {
         this.hasShip = hasShip;
+    }
+
+    public boolean isEgde() {
+        return egde;
+    }
+
+    public void setEgde(boolean egde) {
+        this.egde = egde;
     }
 
     public boolean isAvaliable() {

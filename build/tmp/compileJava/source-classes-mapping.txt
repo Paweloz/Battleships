@@ -10,12 +10,12 @@ module-info.java
  module-info
 com/kodilla/battleship/Main.java
  com.kodilla.battleship.Main
-com/kodilla/battleship/Cell.java
- com.kodilla.battleship.Cell
 com/kodilla/battleship/Board.java
  com.kodilla.battleship.Board
 com/kodilla/battleship/Ship.java
  com.kodilla.battleship.Ship
+com/kodilla/battleship/Cell.java
+ com.kodilla.battleship.Cell
 com/kodilla/battleship/Move.java
  com.kodilla.battleship.Move
 com/kodilla/battleship/GameWindow.java

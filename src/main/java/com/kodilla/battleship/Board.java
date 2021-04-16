@@ -30,6 +30,11 @@ public class Board extends GridPane {
                 cellList.add(cell);
             }
         }
+        for (Cell cell : cellList){
+            if(cell.getCellX()==0 || cell.getCellX() == 9 || cell.getCellY() == 0 || cell.getCellY() ==9){
+                cell.setEgde(true);
+            }
+        }
     }
 
     public GridPane getGrid() {
