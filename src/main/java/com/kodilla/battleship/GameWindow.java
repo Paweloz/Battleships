@@ -87,7 +87,7 @@ public class GameWindow {
 
         //Setting a place for messages
         comunicates.getChildren().add(messages.getPlaceYourShip());
-        comunicates.setPadding(new Insets(450,10,10,10));
+        comunicates.setPadding(new Insets(450,10,10,20));
 
         //Placing everything into a BorderPane
         mainPane.setRight(comunicates);

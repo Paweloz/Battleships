@@ -73,7 +73,7 @@ public class Main extends Application {
             bottomButton2.setAlignment(Pos.BOTTOM_RIGHT);
             bottomButton2.setPadding(new Insets(10,50,10,10));
             gameLayout.setBottom(bottomButton2);
-            gameScene = new Scene(gameLayout,700,600);
+            gameScene = new Scene(gameLayout,700,650);
 
 
             //Display

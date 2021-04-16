@@ -1,10 +1,12 @@
 package com.kodilla.battleship;
 
 import javafx.scene.Group;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -32,6 +34,7 @@ public class Move {
         shipGroup.setOnMousePressed(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
                 shipGroup.setMouseTransparent(true);
+                //ship.setVertical(false);
                 event.setDragDetect(true);
                 for (int i = 0; i < ship.getShipInList().size(); i++) {
                     Rectangle r = ship.getShipInList().get(i);
@@ -41,13 +44,14 @@ public class Move {
                 }
                 draggingX = shipGroup.getTranslateX() - event.getSceneX();
                 draggingY = shipGroup.getTranslateY() - event.getSceneY();
-            } else {
+            } else if(event.getButton() == MouseButton.SECONDARY){
                 shipGroup.getTransforms().add(new Rotate(90));
                 ship.setShipTotalX(ship.getShipHeight());
                 ship.setShipTotalY(ship.getShipWidth()*ship.getType());
                 ship.setVertical(true);
             }
         });
+
 
 
         shipGroup.setOnDragDetected(event -> shipGroup.startFullDrag());
@@ -59,7 +63,7 @@ public class Move {
             shipGroup.setTranslateY(event.getSceneY() + draggingY);
             event.setDragDetect(false);
         });
-/////////////////////////////////////////////////////////////////////////////Tutaj zakoduj poprawne umieszczanie statków
+
         shipGroup.setOnMouseReleased(event -> {
             shipGroup.setMouseTransparent(false);
             try {
@@ -79,8 +83,9 @@ public class Move {
         }
     }
 
+
     // Metoda sprawdzajaca możliwość upuszczenia statku na planszy
-    public void placeShip(int pickedRectangle, double shipTotalX, double shipTotalY, Board board, boolean vertical){
+    public void placeShip(int pickedRectangle, double shipTotalX, double shipTotalY, @NotNull Board board, boolean vertical){
         Cell droppedCell = null;
         List<Cell> cellList = new LinkedList<>();
         boolean canPlaceShip = true;
@@ -113,6 +118,10 @@ public class Move {
                             if (cell.getCellX() == i && cell.getCellY() == droppedCell.getCellY()) {
                                 if(cell.isAvaliable()) {
                                     cellList.add(cell);
+                                    for (Cell cell2 : cellList){
+                                        System.out.println( cell2.getCellX()+" "+cell2.getCellY());
+                                    }
+                                    System.out.println(cellList.size());
                                 }else{
                                     canPlaceShip = false;
                                 }

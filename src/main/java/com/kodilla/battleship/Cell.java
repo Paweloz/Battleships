@@ -11,13 +11,11 @@ import javafx.scene.shape.Rectangle;
 public class Cell extends Rectangle {
 
     public double x, y;
-    private Point2D point2D;
     public Ship ship = null;
     public boolean hasShip;
     public boolean shipDroppedOn;
     public boolean avaliable = true;
     public boolean wasShot = false;
-    private boolean egde;
 
     private Board board= null;
 
@@ -26,7 +24,6 @@ public class Cell extends Rectangle {
         this.x = x;
         this.y = y;
         this.board = board;
-        this.point2D = new Point2D(x,y);
         setFill(Color.LIGHTBLUE);
         this.setOnMouseClicked(event -> System.out.println("Komórka X :"+x +" Y: "+y));
     }
@@ -37,10 +34,6 @@ public class Cell extends Rectangle {
         this.y = y;
     }
 
-
-    public Point2D getCell(){
-        return point2D;
-    }
 
     public double getCellX() {
         return x;
@@ -60,14 +53,6 @@ public class Cell extends Rectangle {
 
     public void setHasShip(boolean hasShip) {
         this.hasShip = hasShip;
-    }
-
-    public boolean isEgde() {
-        return egde;
-    }
-
-    public void setEgde(boolean egde) {
-        this.egde = egde;
     }
 
     public boolean isAvaliable() {
