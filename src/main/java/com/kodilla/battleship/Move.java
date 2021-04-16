@@ -45,6 +45,8 @@ public class Move {
                 draggingX = shipGroup.getTranslateX() - event.getSceneX();
                 draggingY = shipGroup.getTranslateY() - event.getSceneY();
             } else if(event.getButton() == MouseButton.SECONDARY){
+                draggingX = shipGroup.getTranslateX() - event.getSceneX();
+                draggingY = shipGroup.getTranslateY() - event.getSceneY();
                 shipGroup.getTransforms().add(new Rotate(90));
                 ship.setShipTotalX(ship.getShipHeight());
                 ship.setShipTotalY(ship.getShipWidth()*ship.getType());
