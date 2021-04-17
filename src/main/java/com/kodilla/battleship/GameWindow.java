@@ -2,6 +2,7 @@ package com.kodilla.battleship;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -10,6 +11,7 @@ import javafx.scene.text.TextFlow;
 
 public class GameWindow {
     private BorderPane mainPane = new BorderPane();
+    private Main mainWindow;
 
     private Board playerBoard = new Board(false);
     private GridPane playerGrid = playerBoard.getGrid();
@@ -23,6 +25,7 @@ public class GameWindow {
     private Label labelCarrier = new Label("Carrier");
     private TextFlow comunicates = new TextFlow();
     private Messages messages = new Messages();
+    private Button start = new Button("Start");
     private double x;
     private double y;
 
@@ -85,11 +88,15 @@ public class GameWindow {
         });
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        start.setOnAction(event -> Move.startGame(enemyBoard,playerBoard));
+        start.setPrefSize(100,20);
+
         //Setting a place for messages
         comunicates.getChildren().add(messages.getPlaceYourShip());
         comunicates.setPadding(new Insets(450,10,10,20));
 
         //Placing everything into a BorderPane
+
         mainPane.setRight(comunicates);
         mainPane.setPadding(new Insets(10,10,10,10));
         mainPane.setCenter(storedShips);
@@ -97,6 +104,15 @@ public class GameWindow {
 
 
     }
+
+    public Button getStart() {
+        return start;
+    }
+
+    public void setMainWindow(Main mainWindow) {
+        this.mainWindow = mainWindow;
+    }
+
     public BorderPane getMainPane() {
         return mainPane;
     }

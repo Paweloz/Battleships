@@ -1,7 +1,5 @@
 package com.kodilla.battleship;
 
-
-import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -11,11 +9,13 @@ import javafx.scene.shape.Rectangle;
 public class Cell extends Rectangle {
 
     public double x, y;
-    public Ship ship = null;
     public boolean hasShip;
     public boolean shipDroppedOn;
     public boolean avaliable = true;
     public boolean wasShot = false;
+    public boolean enableAction = false;
+    private int cellsWithShip;
+
 
     private Board board= null;
 
@@ -25,7 +25,9 @@ public class Cell extends Rectangle {
         this.y = y;
         this.board = board;
         setFill(Color.LIGHTBLUE);
-        this.setOnMouseClicked(event -> System.out.println("Komórka X :"+x +" Y: "+y));
+
+
+
     }
 
     public Cell(double x, double y){
@@ -34,6 +36,15 @@ public class Cell extends Rectangle {
         this.y = y;
     }
 
+
+
+    public boolean isEnableAction() {
+        return enableAction;
+    }
+
+    public void setEnableAction(boolean enableAction) {
+        this.enableAction = enableAction;
+    }
 
     public double getCellX() {
         return x;
@@ -65,5 +76,13 @@ public class Cell extends Rectangle {
 
     public double getCellY() {
         return y;
+    }
+
+    public boolean isWasShot() {
+        return wasShot;
+    }
+
+    public void setWasShot(boolean wasShot) {
+        this.wasShot = wasShot;
     }
 }

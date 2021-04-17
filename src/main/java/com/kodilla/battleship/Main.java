@@ -68,11 +68,13 @@ public class Main extends Application {
             returnButton2.setOnAction(event -> primaryStage.setScene(scene));
 
             GameWindow gameWindow = new GameWindow();
+            gameWindow.setMainWindow(this);
             BorderPane gameLayout = gameWindow.getMainPane();
-            HBox bottomButton2 = new HBox(returnButton2);
-            bottomButton2.setAlignment(Pos.BOTTOM_RIGHT);
-            bottomButton2.setPadding(new Insets(10,50,10,10));
-            gameLayout.setBottom(bottomButton2);
+            HBox bottomButtons = new HBox(gameWindow.getStart() ,returnButton2);
+            bottomButtons.setAlignment(Pos.BOTTOM_RIGHT);
+            bottomButtons.setPadding(new Insets(10,50,10,10));
+            bottomButtons.setSpacing(20);
+            gameLayout.setBottom(bottomButtons);
             gameScene = new Scene(gameLayout,700,650);
 
 
@@ -84,6 +86,5 @@ public class Main extends Application {
         }catch (Exception e){
             e.printStackTrace();
         }
-
     }
 }

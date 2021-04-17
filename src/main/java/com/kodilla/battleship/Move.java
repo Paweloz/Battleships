@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 /* Klasa udostępniajaca funkcjonalność ruchu dla statków oraz reakcji dla planszy */
 public class Move {
@@ -17,10 +18,8 @@ public class Move {
     private double draggingY;
     private Ship ship;
     private Group shipGroup;
-    private Board board;
+    private static Board board;
     List<Cell> cellsWithShip = new LinkedList<>();
-    private int x;
-    private int y;
 
 
     public Move(Ship ship,Board board){
@@ -45,15 +44,14 @@ public class Move {
                 draggingX = shipGroup.getTranslateX() - event.getSceneX();
                 draggingY = shipGroup.getTranslateY() - event.getSceneY();
             } else if(event.getButton() == MouseButton.SECONDARY){
+                ship.setVertical(true);
                 draggingX = shipGroup.getTranslateX() - event.getSceneX();
                 draggingY = shipGroup.getTranslateY() - event.getSceneY();
-                shipGroup.getTransforms().add(new Rotate(90));
+                shipGroup.setRotate(shipGroup.getRotate()+90);
                 ship.setShipTotalX(ship.getShipHeight());
                 ship.setShipTotalY(ship.getShipWidth()*ship.getType());
-                ship.setVertical(true);
             }
         });
-
 
 
         shipGroup.setOnDragDetected(event -> shipGroup.startFullDrag());
@@ -189,6 +187,7 @@ public class Move {
                             }
                         }
                     }shipGroup.setVisible(false);
+                    board.setShipsPlaced(board.getShipsPlaced()+1);
                 }else{
                     shipGroup.setVisible(true);
                 }
@@ -233,6 +232,49 @@ public class Move {
                     cell1.setAvaliable(false);
                 }
             }
+        }
+    }
+    public static void startGame(Board enemyBoard, Board playerBoard){
+        int cellsWithShip =0;
+        if(playerBoard.getShipsPlaced() == 5){
+            System.out.println("Start game");
+            for (Cell cell : enemyBoard.getCellList()){
+                cell.setOnMouseClicked(event -> {
+                    if(enemyBoard.isEnemy() && cell.containsShip() && !cell.isWasShot()){
+                        cell.setFill(Color.RED);
+                        cell.setHasShip(false);
+                        cell.setWasShot(true);
+                    } else if (!cell.isWasShot()) {
+                        cell.setFill(Color.BLACK);
+                        cell.setWasShot(true);
+                    }
+
+                        Random generateX = new Random();
+                        Random generateY = new Random();
+                        double enemyShootX = generateX.nextInt(10);
+                        double enemyShootY = generateY.nextInt(10);
+                        for (Cell cell1 : playerBoard.getCellList()){
+                            if(cell1.getCellX() == enemyShootX && cell1.getCellY() == enemyShootY){
+                                if(cell1.containsShip() && !cell1.isWasShot()){
+                                    cell1.setWasShot(true);
+                                    cell1.setHasShip(false);
+                                    cell1.setFill(Color.RED);
+                                }else if (!cell1.containsShip() && !cell1.isWasShot() ){
+                                    cell1.setWasShot(true);
+                                    cell1.setFill(Color.BLACK);
+                                }else {
+                                    System.out.println("Tu już cpu strzelił, pasuje, zeby strzelił, gdzie indziej");
+                                }
+                            }
+                        }
+                });
+            }
+
+
+
+
+        }else {
+            System.out.println("Nie rozmieściłeś jeszcze wszystkich statków");
         }
     }
 }

@@ -21,6 +21,8 @@ public class Board extends GridPane {
     private Text[] numbers = {new Text("   "), new Text(" 1"),new Text(" 2"),new Text(" 3"),new Text(" 4"),new Text(" 5"),new Text(" 6"),
             new Text(" 7"),new Text(" 8"),new Text(" 9"),new Text(" 10")};
     private List<Cell> cellsWithShip = new LinkedList<>();
+    private int shipsPlaced =0;
+    public boolean playerWon = false;
 
 
     public Board(boolean enemy){
@@ -149,38 +151,46 @@ public class Board extends GridPane {
             Cell temp = new Cell(cell.getCellX(),cell.getCellY());
             for(Cell cell1 : this.getCellList()){
                 if(cell1.getCellX()==temp.getCellX() && cell1.getCellY() == temp.getCellY()-1 && !cell1.containsShip()){
-                    cell1.setFill(Color.LIGHTGRAY);
+                    //cell1.setFill(Color.LIGHTGRAY);
                     cell1.setAvaliable(false);
                 }
                 if(cell1.getCellX()==temp.getCellX() && cell1.getCellY() == temp.getCellY()+1 && !cell1.containsShip()){
-                    cell1.setFill(Color.LIGHTGRAY);
+                    //cell1.setFill(Color.LIGHTGRAY);
                     cell1.setAvaliable(false);
                 }
                 if(cell1.getCellX()==temp.getCellX()-1 && cell1.getCellY()==temp.getCellY() && !cell1.containsShip()){
-                    cell1.setFill(Color.LIGHTGRAY);
+                    //cell1.setFill(Color.LIGHTGRAY);
                     cell1.setAvaliable(false);
                 }
                 if(cell1.getCellX()==temp.getCellX()+1 && cell1.getCellY()==temp.getCellY() && !cell1.containsShip()){
-                    cell1.setFill(Color.LIGHTGRAY);
+                    //cell1.setFill(Color.LIGHTGRAY);
                     cell1.setAvaliable(false);
                 }
                 if(cell1.getCellX()==temp.getCellX()+1 && cell1.getCellY()==temp.getCellY()+1 && !cell1.containsShip()){
-                    cell1.setFill(Color.LIGHTGRAY);
+                    //cell1.setFill(Color.LIGHTGRAY);
                     cell1.setAvaliable(false);
                 }
                 if(cell1.getCellX()==temp.getCellX()+1 && cell1.getCellY()==temp.getCellY()-1 && !cell1.containsShip()){
-                    cell1.setFill(Color.LIGHTGRAY);
+                    //cell1.setFill(Color.LIGHTGRAY);
                     cell1.setAvaliable(false);
                 }if(cell1.getCellX()==temp.getCellX()-1 && cell1.getCellY()==temp.getCellY()+1 && !cell1.containsShip()){
-                    cell1.setFill(Color.LIGHTGRAY);
+                    //cell1.setFill(Color.LIGHTGRAY);
                     cell1.setAvaliable(false);
                 }
                 if(cell1.getCellX()==temp.getCellX()-1 && cell1.getCellY()==temp.getCellY()-1 && !cell1.containsShip()){
-                    cell1.setFill(Color.LIGHTGRAY);
+                    //cell1.setFill(Color.LIGHTGRAY);
                     cell1.setAvaliable(false);
                 }
             }
         }
+    }
+
+    public int getShipsPlaced() {
+        return shipsPlaced;
+    }
+
+    public void setShipsPlaced(int shipsPlaced) {
+        this.shipsPlaced = shipsPlaced;
     }
 
     public GridPane getGrid() {
@@ -210,5 +220,12 @@ public class Board extends GridPane {
 
     public boolean isEnemy() {
         return enemy;
+    }
+    public boolean isPlayerWon() {
+        return playerWon;
+    }
+
+    public void setPlayerWon(boolean playerWon) {
+        this.playerWon = playerWon;
     }
 }
