@@ -27,6 +27,7 @@ public class Main extends Application {
             BackgroundImage backgroundImage = new BackgroundImage(imageback, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
             Background background = new Background(backgroundImage);
 
+
             // Menu Layout
             Button instruction = new Button("Instruction");
             instruction.setOnAction(event ->primaryStage.setScene(instructionScene));
@@ -75,7 +76,7 @@ public class Main extends Application {
             bottomButtons.setPadding(new Insets(10,50,10,10));
             bottomButtons.setSpacing(20);
             gameLayout.setBottom(bottomButtons);
-            gameScene = new Scene(gameLayout,700,650);
+            gameScene = new Scene(gameLayout,800,650);
 
 
             //Display

@@ -66,8 +66,6 @@ public class Move {
                     ship.setShipTotalX(ship.getShipWidth() * ship.getType());
                     ship.setShipTotalY(ship.getShipHeight());
                 }
-                System.out.println(ship.getShipTotalX());
-                System.out.println(ship.getShipTotalY());
             }
         });
 
@@ -119,7 +117,27 @@ public class Move {
                 cell.setShipDroppedOn(false);
             }
         }
+        // Zmiana kolejności liczenia pickedRectangle w zależoności od ilości obróceń statku
+        if(shipGroup.getRotate() == 180 || shipGroup.getRotate()%360 == 180
+                || shipGroup.getRotate() == 270 || shipGroup.getRotate()%360==270){
+            if(pickedRectangle==ship.getType()){
+                pickedRectangle = 1;
+            }else if(pickedRectangle == ship.getType() -1){
+                pickedRectangle = 2;
 
+            }else if(pickedRectangle == ship.getType() -2){
+                pickedRectangle = 3;
+
+            }else if(pickedRectangle == ship.getType() -3){
+                pickedRectangle = 4;
+
+            }else if(pickedRectangle == ship.getType() -4){
+                pickedRectangle = 5;
+
+            }
+
+        }
+        System.out.println(pickedRectangle);
         //Umieszczanie statku w poziomie
         if (!vertical) {
             double requiredOnTheLeft = pickedRectangle - 1;
