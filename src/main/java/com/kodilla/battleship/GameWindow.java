@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 
@@ -52,18 +53,23 @@ public class GameWindow {
         Move moveShip1 = new Move(patrolBoat,playerBoard);
         moveShip1.setShipMoves();
         moveShip1.setBoardReaction();
+        moveShip1.setGameWindow(this);
         Move moveShip2 = new Move(cruiser,playerBoard);
         moveShip2.setShipMoves();
         moveShip2.setBoardReaction();
+        moveShip2.setGameWindow(this);
         Move moveShip3 = new Move(crusier2,playerBoard);
         moveShip3.setShipMoves();
         moveShip3.setBoardReaction();
+        moveShip3.setGameWindow(this);
         Move moveShip4 = new Move(battleship,playerBoard);
         moveShip4.setShipMoves();
         moveShip4.setBoardReaction();
+        moveShip4.setGameWindow(this);
         Move moveShip5 = new Move(carrier,playerBoard);
         moveShip5.setShipMoves();
         moveShip5.setBoardReaction();
+        moveShip5.setGameWindow(this);
 
         //Placing ships into a VBox
         VBox storedShips = new VBox();
@@ -92,17 +98,27 @@ public class GameWindow {
         start.setPrefSize(100,20);
 
         //Setting a place for messages
-        comunicates.getChildren().add(messages.getPlaceYourShip());
-        comunicates.setPadding(new Insets(450,10,10,20));
+        comunicates.getChildren().add(new Text("Welcom to battleships board game \nPlease place your ships"));
+        comunicates.setPadding(new Insets(450,100,10,10));
+        comunicates.toBack();
 
         //Placing everything into a BorderPane
 
-        mainPane.setRight(comunicates);
         mainPane.setPadding(new Insets(10,10,10,10));
+        mainPane.setRight(comunicates);
         mainPane.setCenter(storedShips);
         mainPane.setLeft(gamesBoards);
 
 
+    }
+
+    public TextFlow getComunicates() {
+        return comunicates;
+    }
+
+    public void setComunicates(Text comunicates) {
+        this.comunicates.getChildren().clear();
+        this.comunicates.getChildren().add(comunicates);
     }
 
     public Button getStart() {

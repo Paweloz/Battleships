@@ -4,14 +4,15 @@ import javafx.scene.Group;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
 /* Klasa udostępniajaca funkcjonalność ruchu dla statków oraz reakcji dla planszy */
 public class Move {
+    private static GameWindow gameWindow;
     private double draggingX;
     private double draggingY;
     private Ship ship;
@@ -26,7 +27,6 @@ public class Move {
     private static double previousY;
 
 
-
     public Move(Ship ship, Board board) {
         this.ship = ship;
         this.shipGroup = ship.getShip();
@@ -37,8 +37,8 @@ public class Move {
     public void setShipMoves() {
         shipGroup.setOnMousePressed(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
+                gameWindow.setComunicates(new Text("You can rotate ship with right mouse button"));
                 shipGroup.setMouseTransparent(true);
-                //ship.setVertical(false);
                 event.setDragDetect(true);
                 for (int i = 0; i < ship.getShipInList().size(); i++) {
                     Rectangle r = ship.getShipInList().get(i);
@@ -52,9 +52,22 @@ public class Move {
                 ship.setVertical(true);
                 draggingX = shipGroup.getTranslateX() - event.getSceneX();
                 draggingY = shipGroup.getTranslateY() - event.getSceneY();
-                shipGroup.setRotate(shipGroup.getRotate() + 90);
                 ship.setShipTotalX(ship.getShipHeight());
                 ship.setShipTotalY(ship.getShipWidth() * ship.getType());
+
+                shipGroup.setRotate(shipGroup.getRotate() + 90);
+                if(shipGroup.getRotate() == 90 || shipGroup.getRotate() == 270 || shipGroup.getRotate()%360==90 ||
+                         shipGroup.getRotate()%360==270){
+                    ship.setVertical(true);
+                    ship.setShipTotalX(ship.getShipHeight());
+                    ship.setShipTotalY(ship.getShipWidth() * ship.getType());
+                }else {
+                    ship.setVertical(false);
+                    ship.setShipTotalX(ship.getShipWidth() * ship.getType());
+                    ship.setShipTotalY(ship.getShipHeight());
+                }
+                System.out.println(ship.getShipTotalX());
+                System.out.println(ship.getShipTotalY());
             }
         });
 
@@ -70,14 +83,16 @@ public class Move {
         });
 
         shipGroup.setOnMouseReleased(event -> {
-            shipGroup.setMouseTransparent(false);
-            try {
-                placeShip(ship.getPickedRectangle(), ship.getShipTotalX(), ship.getShipTotalY(), board, ship.isVertical());
-            } catch (NullPointerException e) {
-                System.out.println();
-            }
-            setNeighborhood();
+            if(event.getButton() == MouseButton.PRIMARY) {
+                shipGroup.setMouseTransparent(false);
+                try {
+                    placeShip(ship.getPickedRectangle(), ship.getShipTotalX(), ship.getShipTotalY(), board, ship.isVertical());
+                } catch (NullPointerException e) {
+                    System.out.println();
+                }
+                setNeighborhood();
 
+            }
         });
     }
 
@@ -111,7 +126,6 @@ public class Move {
             double requiredOnTheRight = shipTotalX / 20 - pickedRectangle;
 
             if (droppedCell.isAvaliable()) {
-
                 //Zaznaczanie wymaganych pól na lewo od miejsca upuszczcenia statu
                 for (double i = droppedCell.getCellX(); i >= (droppedCell.getCellX() - requiredOnTheLeft); i--) {
                     for (Cell cell : board.getCellList()) {
@@ -132,11 +146,11 @@ public class Move {
                                 cellList.add(cell);
                             } else {
                                 canPlaceShip = false;
-
                             }
                         }
                     }
                 }
+
             }
 
             //Tutaj to samo sprawdzenie tylko dla statku w pionie
@@ -194,6 +208,7 @@ public class Move {
                 }
                 shipGroup.setVisible(false);
                 board.setShipsPlaced(board.getShipsPlaced() + 1);
+                gameWindow.setComunicates(new Text("Ship placed succesfully"));
             } else {
                 shipGroup.setVisible(true);
             }
@@ -242,14 +257,16 @@ public class Move {
         }
     }
 
-    public static void startGame(Board enemyBoard, Board playerBoard){
+    public static void startGame(Board enemyBoard, Board playerBoard) {
 
-        if(playerBoard.getShipsPlaced() == 5){
-            System.out.println("Start game");
-            for (Cell cell : enemyBoard.getCellList()){
+
+        if (playerBoard.getShipsPlaced() == 5) {
+            gameWindow.setComunicates(new Text("Start Game"));
+
+            for (Cell cell : enemyBoard.getCellList()) {
                 cell.setOnMouseClicked(event -> {
                     enemyMissed = false;
-                    if(enemyBoard.isEnemy() && cell.containsShip() && !cell.isWasShot()){
+                    if (enemyBoard.isEnemy() && cell.containsShip() && !cell.isWasShot()) {
                         cell.setFill(Color.RED);
                         cell.setHasShip(false);
                         cell.setWasShot(true);
@@ -271,8 +288,6 @@ public class Move {
                             notTheSameTarget = false;
                             previousX = enemyShootX;
                             previousY = enemyShootY;
-                            System.out.println(previousX +" "+ enemyShootX);
-                            System.out.println(previousY +" "+ enemyShootY);
                             for (Cell cell1 : playerBoard.getCellList()) {
                                 if (cell1.getCellX() == enemyShootX && cell1.getCellY() == enemyShootY) {
                                     if (cell1.containsShip() && !cell1.isWasShot()) {
@@ -288,12 +303,19 @@ public class Move {
                             }
                         }
                     }
+                    if (!enemyBoard.containsShip() || !playerBoard.containsShip()) {
+                        gameWindow.setComunicates(new Text("End Game"));
+                    }
                 });
             }
-
-        }else {
-            System.out.println("Nie rozmieściłeś jeszcze wszystkich statków");
+        } else {
+            gameWindow.setComunicates(new Text("Please place your all ships"));
         }
     }
+
+    public void setGameWindow(GameWindow gameWindow) {
+        this.gameWindow = gameWindow;
+    }
 }
+
 

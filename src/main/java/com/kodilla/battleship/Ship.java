@@ -5,7 +5,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Rotate;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,8 +14,6 @@ import java.util.List;
 
 public class Ship extends Rectangle {
     private final int type;
-    private double draggingX;
-    private double draggingY;
     private double width;
     private double height;
     private Group ship = new Group();
@@ -52,7 +49,9 @@ public class Ship extends Rectangle {
                 }
             });
             r.setOnMouseReleased(event -> {
-                r.setId(null);
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    r.setId(null);
+                }
             });
         }
     }

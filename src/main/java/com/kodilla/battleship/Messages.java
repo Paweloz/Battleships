@@ -10,7 +10,7 @@ public class Messages {
     private Text placeYourShip = new Text("Please place your ships on your board");
 
     public Messages(){
-        placeYourShip.setFont(Font.font("Verdana", 10));
+        placeYourShip.setFont(Font.font(15));
     }
 
     public Text getPlaceYourShip() {

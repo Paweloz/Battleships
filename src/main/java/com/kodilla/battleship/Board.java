@@ -21,6 +21,7 @@ public class Board extends GridPane {
     private List<Cell> cellsWithShip = new LinkedList<>();
     private int shipsPlaced =0;
     public boolean playerWon = false;
+    public boolean containsShip;
 
 
     public Board(boolean enemy){
@@ -127,7 +128,7 @@ public class Board extends GridPane {
                     for (Cell cell : this.getCellList()) {
                         for (Cell cell1 : cellsForShip) {
                             if (cell.getCellX() == cell1.getCellX() && cell.getCellY() == cell1.getCellY()) {
-                               //cell.setFill(Color.DARKBLUE);
+                               // cell.setFill(Color.DARKBLUE);
                                 cell.setAvaliable(false);
                                 cell.setHasShip(true);
                                 cellsWithShip.add(cell);
@@ -149,38 +150,54 @@ public class Board extends GridPane {
             Cell temp = new Cell(cell.getCellX(),cell.getCellY());
             for(Cell cell1 : this.getCellList()){
                 if(cell1.getCellX()==temp.getCellX() && cell1.getCellY() == temp.getCellY()-1 && !cell1.containsShip()){
-                    //cell1.setFill(Color.LIGHTGRAY);
+                    cell1.setFill(Color.LIGHTGRAY);
                     cell1.setAvaliable(false);
                 }
                 if(cell1.getCellX()==temp.getCellX() && cell1.getCellY() == temp.getCellY()+1 && !cell1.containsShip()){
-                    //cell1.setFill(Color.LIGHTGRAY);
+                    cell1.setFill(Color.LIGHTGRAY);
                     cell1.setAvaliable(false);
                 }
                 if(cell1.getCellX()==temp.getCellX()-1 && cell1.getCellY()==temp.getCellY() && !cell1.containsShip()){
-                    //cell1.setFill(Color.LIGHTGRAY);
+                    cell1.setFill(Color.LIGHTGRAY);
                     cell1.setAvaliable(false);
                 }
                 if(cell1.getCellX()==temp.getCellX()+1 && cell1.getCellY()==temp.getCellY() && !cell1.containsShip()){
-                    //cell1.setFill(Color.LIGHTGRAY);
+                    cell1.setFill(Color.LIGHTGRAY);
                     cell1.setAvaliable(false);
                 }
                 if(cell1.getCellX()==temp.getCellX()+1 && cell1.getCellY()==temp.getCellY()+1 && !cell1.containsShip()){
-                    //cell1.setFill(Color.LIGHTGRAY);
+                    cell1.setFill(Color.LIGHTGRAY);
                     cell1.setAvaliable(false);
                 }
                 if(cell1.getCellX()==temp.getCellX()+1 && cell1.getCellY()==temp.getCellY()-1 && !cell1.containsShip()){
-                    //cell1.setFill(Color.LIGHTGRAY);
+                    cell1.setFill(Color.LIGHTGRAY);
                     cell1.setAvaliable(false);
                 }if(cell1.getCellX()==temp.getCellX()-1 && cell1.getCellY()==temp.getCellY()+1 && !cell1.containsShip()){
-                    //cell1.setFill(Color.LIGHTGRAY);
+                    cell1.setFill(Color.LIGHTGRAY);
                     cell1.setAvaliable(false);
                 }
                 if(cell1.getCellX()==temp.getCellX()-1 && cell1.getCellY()==temp.getCellY()-1 && !cell1.containsShip()){
-                    //cell1.setFill(Color.LIGHTGRAY);
+                    cell1.setFill(Color.LIGHTGRAY);
                     cell1.setAvaliable(false);
                 }
             }
         }
+    }
+
+    public boolean containsShip(){
+        int count = 0;
+        for (Cell cell : this.getCellList()){
+            if(cell.containsShip()){
+                count += 1;
+            }
+            if(count != 0){
+                containsShip = true;
+            }else {
+                containsShip = false;
+            }
+
+        }
+        return containsShip;
     }
 
     public int getShipsPlaced() {
