@@ -14,7 +14,6 @@ public class Cell extends Rectangle {
     public boolean avaliable = true;
     public boolean wasShot = false;
     public boolean enableAction = false;
-    private int cellsWithShip;
 
 
     private Board board= null;
@@ -25,8 +24,6 @@ public class Cell extends Rectangle {
         this.y = y;
         this.board = board;
         setFill(Color.LIGHTBLUE);
-
-
 
     }
 

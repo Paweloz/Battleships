@@ -1,10 +1,8 @@
 package com.kodilla.battleship;
 
 import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import java.util.LinkedList;
 import java.util.List;
@@ -117,7 +115,7 @@ public class Board extends GridPane {
                     for (Cell cell : this.getCellList()) {
                         for (Cell cell1 : cellsForShip) {
                             if (cell.getCellX() == cell1.getCellX() && cell.getCellY() == cell1.getCellY()) {
-                                cell.setFill(Color.DARKBLUE);
+                                //cell.setFill(Color.DARKBLUE);
                                 cell.setAvaliable(false);
                                 cell.setHasShip(true);
                                 cellsWithShip.add(cell);
@@ -129,7 +127,7 @@ public class Board extends GridPane {
                     for (Cell cell : this.getCellList()) {
                         for (Cell cell1 : cellsForShip) {
                             if (cell.getCellX() == cell1.getCellX() && cell.getCellY() == cell1.getCellY()) {
-                                cell.setFill(Color.DARKBLUE);
+                               //cell.setFill(Color.DARKBLUE);
                                 cell.setAvaliable(false);
                                 cell.setHasShip(true);
                                 cellsWithShip.add(cell);
