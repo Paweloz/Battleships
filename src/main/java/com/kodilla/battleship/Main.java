@@ -36,7 +36,12 @@ public class Main extends Application {
             startGame.setOnAction(event -> primaryStage.setScene(gameScene));
 
             Button quitGame = new Button("Quit Game");
-            quitGame.setOnAction(e -> primaryStage.close());
+            quitGame.setOnAction(e -> {
+                boolean result = PopUpWindow.display("Battleships", "Are you sure, you want to quit ?");
+                if (result){
+                    primaryStage.close();
+                }
+            });
 
             //Umieszczenie przycisków na dole ekranu w HBoxie
             HBox bottom = new HBox();
@@ -73,10 +78,18 @@ public class Main extends Application {
             BorderPane gameLayout = gameWindow.getMainPane();
             HBox bottomButtons = new HBox(gameWindow.getStart() ,returnButton2);
             bottomButtons.setAlignment(Pos.BOTTOM_RIGHT);
-            bottomButtons.setPadding(new Insets(10,50,10,10));
+            bottomButtons.setPadding(new Insets(10,200,10,0));
             bottomButtons.setSpacing(20);
             gameLayout.setBottom(bottomButtons);
-            gameScene = new Scene(gameLayout,800,650);
+            gameScene = new Scene(gameLayout,750,650);
+
+            primaryStage.setOnCloseRequest(e -> {
+                e.consume();
+                boolean result = PopUpWindow.display("Battleships", "Are you sure, you want to quit ?");
+                if (result){
+                    primaryStage.close();
+                }
+            });
 
 
             //Display

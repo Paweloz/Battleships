@@ -4,7 +4,10 @@ import javafx.scene.Group;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,6 +28,7 @@ public class Move {
     private static double enemyShootX;
     private static double previousX;
     private static double previousY;
+    private static boolean endGame = false;
 
 
     public Move(Ship ship, Board board) {
@@ -288,9 +292,11 @@ public class Move {
                         cell.setFill(Color.RED);
                         cell.setHasShip(false);
                         cell.setWasShot(true);
+                        gameWindow.setComunicates(new Text("Hit on target. Shoot again"));
                     } else if (!cell.isWasShot()) {
                         cell.setFill(Color.BLACK);
                         cell.setWasShot(true);
+                        gameWindow.setComunicates(new Text("Missed"));
 
                         while (!enemyMissed) {
 
@@ -312,22 +318,38 @@ public class Move {
                                         cell1.setWasShot(true);
                                         cell1.setHasShip(false);
                                         cell1.setFill(Color.RED);
+                                        gameWindow.setComunicates(new Text("Enemy hit your ship"));
                                     } else if (!cell1.containsShip() && !cell1.isWasShot()) {
                                         cell1.setWasShot(true);
                                         cell1.setFill(Color.BLACK);
                                         enemyMissed = true;
+                                        //gameWindow.setComunicates(new Text("Enemy missed"));
                                     }
                                 }
                             }
                         }
                     }
-                    if (!enemyBoard.containsShip() || !playerBoard.containsShip()) {
+                    if (!enemyBoard.containsShip()){
                         gameWindow.setComunicates(new Text("End Game"));
+                        for (Cell cell1 : enemyBoard.getCellList()) {
+                            cell1.setOnMouseClicked(null);
+                        }
+                        PopUpWindow.display("You WON !");
+                    }else if ( !playerBoard.containsShip()) {
+                        gameWindow.setComunicates(new Text("End Game"));
+                        for (Cell cell1 : enemyBoard.getCellList()) {
+                            cell1.setOnMouseClicked(null);
+                        }
+                        PopUpWindow.display("You LOST !");
                     }
+
                 });
             }
         } else {
-            gameWindow.setComunicates(new Text("Please place your all ships"));
+            Text text = new Text("Please place your all ships");
+            Font txt = new Font(20);
+            text.setFont(new Font(20));
+            gameWindow.setComunicates(text);
         }
     }
 

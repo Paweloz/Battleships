@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -35,15 +36,17 @@ public class GameWindow {
 
 
     public GameWindow(){
-//        Image imageback = new Image("file:C:\\Development\\Projects\\BattleshipSimple\\src\\main\\resources\\battleship.gif");
-//        BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, true);
-//        BackgroundImage backgroundImage = new BackgroundImage(imageback, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
-//        Background background = new Background(backgroundImage);
+        Image imageback = new Image("file:C:\\Development\\Projects\\BattleshipSimple\\src\\main\\resources\\GameWindowBackground.jpg");
+        BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, true);
+        BackgroundImage backgroundImage = new BackgroundImage(imageback, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
+        Background background = new Background(backgroundImage);
 
         //Placing board with labels
         VBox gamesBoards = new VBox();
         Label enemyLabel = new Label("Enemy Board");
         Label playerLabel = new Label("Player Board");
+        playerLabel.setFont(new Font(20));
+        enemyLabel.setFont(new Font(20));
         gamesBoards.getChildren().addAll(enemyLabel, enemyGrid, playerLabel, playerGrid);
         gamesBoards.setSpacing(10);
         gamesBoards.setAlignment(Pos.CENTER);
@@ -79,6 +82,12 @@ public class GameWindow {
 
         //Placing ships into a VBox
         VBox storedShips = new VBox();
+        labelPatrolBoat.setFont(new Font(15));
+        labelCruiser.setFont(new Font(15));
+        labelCruiser2.setFont(new Font(15));
+        labelBattleship.setFont(new Font(15));
+        labelCarrier.setFont(new Font(15));
+
         storedShips.getChildren().addAll(patrolBoat.getShip(), labelPatrolBoat, cruiser.getShip(), labelCruiser, crusier2.getShip(), labelCruiser2, battleship.getShip(), labelBattleship, carrier.getShip(), labelCarrier);
         storedShips.setPadding(new Insets(10,10,10,50));
         storedShips.setSpacing(10);
@@ -104,7 +113,9 @@ public class GameWindow {
         start.setPrefSize(100,20);
 
         //Setting a place for messages
-        comunicates.getChildren().add(new Text("Welcom to battleships board game \nPlease place your ships"));
+        Text welcome = new Text("Welcome to battleships board game \nPlease place your ships");
+        welcome.setFont(new Font("Times New Roman",20));
+        comunicates.getChildren().add(welcome);
         comunicates.setPadding(new Insets(450,100,10,10));
         comunicates.toBack();
 
@@ -114,7 +125,7 @@ public class GameWindow {
         mainPane.setRight(comunicates);
         mainPane.setCenter(storedShips);
         mainPane.setLeft(gamesBoards);
-        //mainPane.setBackground(background);
+        mainPane.setBackground(background);
 
 
     }
