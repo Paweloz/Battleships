@@ -20,7 +20,7 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         try {
             Image imageback = new Image("file:C:\\Development\\Projects\\BattleshipSimple\\src\\main\\resources\\Battleships.png");
             BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, true);

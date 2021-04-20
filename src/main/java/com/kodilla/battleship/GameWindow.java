@@ -13,24 +13,12 @@ import javafx.scene.text.TextFlow;
 
 
 public class GameWindow {
-    private BorderPane mainPane = new BorderPane();
-    private Main mainWindow;
-
-    private Board playerBoard = new Board(false);
-    private GridPane playerGrid = playerBoard.getGrid();
-    private Board enemyBoard = new Board(true);
-    private GridPane enemyGrid = enemyBoard.getGrid();
-
-    private Label labelPatrolBoat = new Label("Patrol Boat");
-    private Label labelCruiser = new Label("Cruiser");
-    private Label labelCruiser2 = new Label("Cruiser");
-    private Label labelBattleship = new Label("Battleship");
-    private Label labelCarrier = new Label("Carrier");
-    private TextFlow comunicates = new TextFlow();
-    private Messages messages = new Messages();
-    private Button start = new Button("Start");
-    private double x;
-    private double y;
+    private final BorderPane mainPane = new BorderPane();
+    private final Board playerBoard = new Board(false);
+    private final Board enemyBoard = new Board(true);
+    private final TextFlow comunicates = new TextFlow();
+    private final Button start = new Button("Start");
+    private final VBox storedShips = new VBox();
 
 
 
@@ -42,6 +30,13 @@ public class GameWindow {
         Background background = new Background(backgroundImage);
 
         //Placing board with labels
+        GridPane enemyGrid = enemyBoard.getGrid();
+        GridPane playerGrid = playerBoard.getGrid();
+        Label labelPatrolBoat = new Label("Patrol Boat");
+        Label labelCruiser = new Label("Cruiser");
+        Label labelCruiser2 = new Label("Cruiser");
+        Label labelBattleship = new Label("Battleship");
+        Label labelCarrier = new Label("Carrier");
         VBox gamesBoards = new VBox();
         Label enemyLabel = new Label("Enemy Board");
         Label playerLabel = new Label("Player Board");
@@ -81,7 +76,7 @@ public class GameWindow {
         moveShip5.setGameWindow(this);
 
         //Placing ships into a VBox
-        VBox storedShips = new VBox();
+
         labelPatrolBoat.setFont(new Font(15));
         labelCruiser.setFont(new Font(15));
         labelCruiser2.setFont(new Font(15));
@@ -99,22 +94,18 @@ public class GameWindow {
                 event.setDragDetect(true);
         });
 
-        storedShips.setOnDragDetected(event -> {
-            storedShips.startFullDrag();
-        });
+        storedShips.setOnDragDetected(event -> storedShips.startFullDrag());
 
 
-        storedShips.setOnMouseReleased(event -> {
-            storedShips.setMouseTransparent(false);
-        });
+        storedShips.setOnMouseReleased(event -> storedShips.setMouseTransparent(false));
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         start.setOnAction(event -> Move.startGame(enemyBoard,playerBoard));
         start.setPrefSize(100,20);
 
         //Setting a place for messages
-        Text welcome = new Text("Welcome to battleships board game \nPlease place your ships");
-        welcome.setFont(new Font("Times New Roman",20));
+        Text welcome = new Text("Welcome to battleships\nPlease place your ships");
+        welcome.setFont(new Font(20));
         comunicates.getChildren().add(welcome);
         comunicates.setPadding(new Insets(450,100,10,10));
         comunicates.toBack();
@@ -130,10 +121,6 @@ public class GameWindow {
 
     }
 
-    public TextFlow getComunicates() {
-        return comunicates;
-    }
-
     public void setComunicates(Text comunicates) {
         this.comunicates.getChildren().clear();
         this.comunicates.getChildren().add(comunicates);
@@ -144,10 +131,13 @@ public class GameWindow {
     }
 
     public void setMainWindow(Main mainWindow) {
-        this.mainWindow = mainWindow;
     }
 
     public BorderPane getMainPane() {
         return mainPane;
+    }
+
+    public void setStoredShips() {
+        this.storedShips.getChildren().clear();
     }
 }

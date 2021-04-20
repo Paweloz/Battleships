@@ -4,6 +4,8 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -11,16 +13,11 @@ import java.util.Random;
 /* Klasa tworząca plansze */
 
 public class Board extends GridPane {
-    private boolean enemy;
-    private GridPane grid = new GridPane();
-    private List<Cell> cellList = new LinkedList<>();
-    private Text[] letters = {new Text("   "), new Text("  A"),new Text("  B"),new Text("  C"),new Text("  D"),new Text("  E"),new Text("  F"),
-            new Text("  G"),new Text("  H"),new Text("  I"),new Text("  J")};
-    private Text[] numbers = {new Text("   "), new Text(" 1"),new Text(" 2"),new Text(" 3"),new Text(" 4"),new Text(" 5"),new Text(" 6"),
-            new Text(" 7"),new Text(" 8"),new Text(" 9"),new Text(" 10")};
-    private List<Cell> cellsWithShip = new LinkedList<>();
+    private final boolean enemy;
+    private final GridPane grid = new GridPane();
+    private final List<Cell> cellList = new LinkedList<>();
+    private final List<Cell> cellsWithShip = new ArrayList<>();
     private int shipsPlaced =0;
-    public boolean playerWon = false;
     public boolean containsShip;
 
 
@@ -32,7 +29,11 @@ public class Board extends GridPane {
         grid.setVgap(1);
         grid.toBack();
 
-        for(int i=0;i<10;i++){
+        Text[] numbers = {new Text("   "), new Text(" 1"), new Text(" 2"), new Text(" 3"), new Text(" 4"), new Text(" 5"), new Text(" 6"),
+                new Text(" 7"), new Text(" 8"), new Text(" 9"), new Text(" 10")};
+        Text[] letters = {new Text("   "), new Text("  A"), new Text("  B"), new Text("  C"), new Text("  D"), new Text("  E"), new Text("  F"),
+                new Text("  G"), new Text("  H"), new Text("  I"), new Text("  J")};
+        for(int i = 0; i<10; i++){
             grid.add(letters[i],i,0);
             grid.add(numbers[i],0,i);
             for(int j=0;j<10;j++){
@@ -184,63 +185,29 @@ public class Board extends GridPane {
         }
     }
 
-    public boolean containsShip(){
+    public boolean hasNoShip(){
         int count = 0;
         for (Cell cell : this.getCellList()){
             if(cell.containsShip()){
                 count += 1;
             }
-            if(count != 0){
-                containsShip = true;
-            }else {
-                containsShip = false;
-            }
-
+            containsShip = count != 0;
         }
-        return containsShip;
+        return !containsShip;
     }
 
     public int getShipsPlaced() {
         return shipsPlaced;
     }
-
     public void setShipsPlaced(int shipsPlaced) {
         this.shipsPlaced = shipsPlaced;
     }
-
     public GridPane getGrid() {
         return grid;
     }
-
     public List<Cell> getCellList(){ return cellList; }
-
-    public boolean isDroppedOn(){
-        for(Cell cell : this.getCellList()){
-            if(cell.isShipDroppedOn()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public Cell getCell(double x, double y){
-        Cell cellForReturn = new Cell(0.1,0.1,this);
-        for(Cell cell : this.getCellList()){
-            if(cell.getCellX()==x && cell.getCellY()==y){
-                cellForReturn = cell;
-            }
-        }
-        return cellForReturn;
-    }
-
     public boolean isEnemy() {
         return enemy;
     }
-    public boolean isPlayerWon() {
-        return playerWon;
-    }
 
-    public void setPlayerWon(boolean playerWon) {
-        this.playerWon = playerWon;
-    }
 }

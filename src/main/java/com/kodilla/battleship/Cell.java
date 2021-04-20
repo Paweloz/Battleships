@@ -13,16 +13,12 @@ public class Cell extends Rectangle {
     public boolean shipDroppedOn;
     public boolean avaliable = true;
     public boolean wasShot = false;
-    public boolean enableAction = false;
 
-
-    private Board board= null;
 
     public Cell(double x, double y, Board board) {
         super(20, 20);
         this.x = x;
         this.y = y;
-        this.board = board;
         setFill(Color.LIGHTBLUE);
 
     }
@@ -31,16 +27,6 @@ public class Cell extends Rectangle {
         super(20,20);
         this.x = x;
         this.y = y;
-    }
-
-
-
-    public boolean isEnableAction() {
-        return enableAction;
-    }
-
-    public void setEnableAction(boolean enableAction) {
-        this.enableAction = enableAction;
     }
 
     public double getCellX() {
@@ -75,8 +61,8 @@ public class Cell extends Rectangle {
         return y;
     }
 
-    public boolean isWasShot() {
-        return wasShot;
+    public boolean neverShot() {
+        return !wasShot;
     }
 
     public void setWasShot(boolean wasShot) {
