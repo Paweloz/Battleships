@@ -7,7 +7,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
 public class InstructionWindow {
-    Image imageback = new Image("file:C:\\Development\\Projects\\BattleshipSimple\\src\\main\\resources\\battleship.gif");
+    Image imageback = new Image("file:src/main/resources/battleship.gif");
     BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, true);
     BackgroundImage backgroundImage = new BackgroundImage(imageback, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
     Background background = new Background(backgroundImage);

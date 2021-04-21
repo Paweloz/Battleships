@@ -11,6 +11,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+import java.net.URL;
+
 
 public class GameWindow {
     private final BorderPane mainPane = new BorderPane();
@@ -23,7 +25,7 @@ public class GameWindow {
 
 
     public GameWindow(){
-        Image imageback = new Image("file:C:\\Development\\Projects\\BattleshipSimple\\src\\main\\resources\\GameWindowBackground.jpg");
+        Image imageback = new Image("file:src/main/resources/GameWindowBackground.jpg");
         BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, true);
         BackgroundImage backgroundImage = new BackgroundImage(imageback, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
         Background background = new Background(backgroundImage);

@@ -67,5 +67,4 @@ public class PopUpWindow {
         stage.setMinHeight(200);
         stage.showAndWait();
     }
-
 }

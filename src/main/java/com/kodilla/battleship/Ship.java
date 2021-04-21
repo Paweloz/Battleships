@@ -101,6 +101,4 @@ public class Ship extends Rectangle {
     public double getShipHeight() {
         return height;
     }
-
-
 }

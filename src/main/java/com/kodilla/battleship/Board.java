@@ -216,5 +216,4 @@ public class Board extends GridPane {
     public boolean isEnemy() {
         return enemy;
     }
-
 }
