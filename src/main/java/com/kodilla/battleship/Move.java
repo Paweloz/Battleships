@@ -237,6 +237,11 @@ public class Move {
                 shipPlaced.setFont(new Font(20));
                 gameWindow.setComunicates(shipPlaced);
                 gameWindow.getRandom().setDisable(true);
+                if(board.getShipsPlaced()==5){
+                    Text shipsDone = new Text("You can start your game now");
+                    shipsDone.setFont(new Font(20));
+                    gameWindow.setComunicates(shipsDone);
+                }
             } else {
                 shipGroup.setVisible(true);
                 Text wrongPlace = new Text("You cannot place your ship here");
