@@ -3,8 +3,7 @@ package com.kodilla.battleship;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-/* Klasa odpowiadająca za działanie poszczególnych komórek planszy.
-   Odpowiada za ich tworzenie i reagowanie na umieszenie statku */
+/* Klasa odpowiadająca za tworzenie poszczególnych komórek planszy. */
 
 public class Cell extends Rectangle {
 
@@ -15,18 +14,12 @@ public class Cell extends Rectangle {
     public boolean wasShot = false;
 
 
-    public Cell(double x, double y, Board board) {
+    public Cell(double x, double y) {
         super(20, 20);
         this.x = x;
         this.y = y;
         setFill(Color.LIGHTBLUE);
 
-    }
-
-    public Cell(double x, double y){
-        super(20,20);
-        this.x = x;
-        this.y = y;
     }
 
     public double getCellX() {

@@ -15,12 +15,14 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     private Scene scene,gameScene, instructionScene ;
+    private Stage stage;
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) {
+        stage = primaryStage;
         try {
             Image imageback = new Image("file:C:\\Development\\Projects\\BattleshipSimple\\src\\main\\resources\\Battleships.png");
             BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, true);
@@ -30,12 +32,15 @@ public class Main extends Application {
 
             // Menu Layout
             Button instruction = new Button("Instruction");
+            instruction.setPrefSize(80,20);
             instruction.setOnAction(event ->primaryStage.setScene(instructionScene));
 
             Button startGame = new Button("Game");
+            startGame.setPrefSize(80,20);
             startGame.setOnAction(event -> primaryStage.setScene(gameScene));
 
             Button quitGame = new Button("Quit Game");
+            quitGame.setPrefSize(80,20);
             quitGame.setOnAction(e -> {
                 boolean result = PopUpWindow.display("Battleships", "Are you sure, you want to quit ?");
                 if (result){
@@ -43,12 +48,16 @@ public class Main extends Application {
                 }
             });
 
+            Button reset = new Button("Restart");
+            reset.setPrefSize(80,20);
+            reset.setOnAction(event -> initGame());
+
             //Umieszczenie przycisków na dole ekranu w HBoxie
             HBox bottom = new HBox();
             bottom.setPadding(new Insets(10,10,30,10));
-            bottom.setSpacing(100);
+            bottom.setSpacing(50);
             bottom.setAlignment(Pos.CENTER);
-            bottom.getChildren().addAll(startGame,instruction,quitGame);
+            bottom.getChildren().addAll(startGame,reset, instruction,quitGame);
             BorderPane mainPane = new BorderPane();
             mainPane.setBackground(background);
             mainPane.setBottom(bottom);
@@ -69,19 +78,7 @@ public class Main extends Application {
             instructionScene = new Scene(instructionLayout,700,500);
 
             //Game Layout
-            //Pobranie widoku okna gry oraz dodanie do niego przycisku powrotu
-            Button returnButton2 = new Button("Back to menu");
-            returnButton2.setOnAction(event -> primaryStage.setScene(scene));
-
-            GameWindow gameWindow = new GameWindow();
-            gameWindow.setMainWindow(this);
-            BorderPane gameLayout = gameWindow.getMainPane();
-            HBox bottomButtons = new HBox(gameWindow.getStart(), gameWindow.getRandom() ,returnButton2);
-            bottomButtons.setAlignment(Pos.BOTTOM_RIGHT);
-            bottomButtons.setPadding(new Insets(10,200,10,0));
-            bottomButtons.setSpacing(20);
-            gameLayout.setBottom(bottomButtons);
-            gameScene = new Scene(gameLayout,750,650);
+            initGame();
 
             primaryStage.setOnCloseRequest(e -> {
                 e.consume();
@@ -100,5 +97,20 @@ public class Main extends Application {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void initGame(){
+        Button returnButton2 = new Button("Back to menu");
+        returnButton2.setOnAction(event -> stage.setScene(scene));
+
+        GameWindow gameWindow = new GameWindow();
+        gameWindow.setMainWindow(this);
+        BorderPane gameLayout = gameWindow.getMainPane();
+        HBox bottomButtons = new HBox(gameWindow.getStart(), gameWindow.getRandom() ,returnButton2);
+        bottomButtons.setAlignment(Pos.BOTTOM_RIGHT);
+        bottomButtons.setPadding(new Insets(10,200,10,0));
+        bottomButtons.setSpacing(20);
+        gameLayout.setBottom(bottomButtons);
+        gameScene = new Scene(gameLayout,750,650);
     }
 }

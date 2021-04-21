@@ -10,7 +10,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-/* Klasa udostępniajaca funkcjonalność ruchu dla statków oraz reakcji dla planszy */
+/* Klasa udostępniajaca funkcjonalność ruchu dla statków oraz reakcji dla planszy
+*  Zawiera metode sprawdzającą możliwość położenia statku przez gracza,
+*  oraz metodę uruchamiającą rozgrywkę */
 public class Move {
     private static GameWindow gameWindow;
     private double draggingX;
@@ -146,8 +148,6 @@ public class Move {
             }
 
         }
-        System.out.println(pickedRectangle);
-        //Umieszczanie statku w poziomie
         if (!vertical) {
             double requiredOnTheLeft = pickedRectangle - 1;
             double requiredOnTheRight = shipTotalX / 20 - pickedRectangle;
@@ -180,8 +180,6 @@ public class Move {
                 }
 
             }
-
-            //Tutaj to samo sprawdzenie tylko dla statku w pionie
         } else {
             double requiredOnTheTop = pickedRectangle - 1;
             double requiredOnTheBottom = shipTotalY / 20 - pickedRectangle;
@@ -193,7 +191,6 @@ public class Move {
                         cell.setAvaliable(false);
                     }
                 }
-
                 //Zaznaczanie wymaganych w górę od miejsca upuszczcenia statu
                 for (double i = droppedCell.getCellY() - 1; i >= (droppedCell.getCellY() - requiredOnTheTop); i--) {
                     for (Cell cell : board.getCellList()) {
@@ -253,8 +250,6 @@ public class Move {
      Strzelanie jest możliwe dopóki na jednej z planszy nie zostaną zniszczone wszystkie statki
      Komputer strzela losowo, ale nie może strzelić 2 razy w to samo miejsce */
     public static void startGame(Board enemyBoard, Board playerBoard) {
-
-
         if (playerBoard.getShipsPlaced() == 5) {
             Text start = new Text("Game started!");
             start.setFont(new Font (20));
@@ -279,8 +274,8 @@ public class Move {
                         missed.setFont(new Font (20));
                         gameWindow.setComunicates(missed);
 
+                        //Strzelanie komputera
                         while (!enemyMissed) {
-
                             while (!notTheSameTarget) {
                                 Random generateX = new Random();
                                 Random generateY = new Random();

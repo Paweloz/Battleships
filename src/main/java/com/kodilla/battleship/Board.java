@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/* Klasa tworząca plansze */
+/* Klasa odpowiadająca za tworzenie planszy i rozmieszczanie statków CPU
+*  Zawiera metody : losowego rozmieszczania statków, ustalania sąsiedzctwa dla statków */
 
 public class Board extends GridPane {
     private final boolean enemy;
@@ -35,7 +36,7 @@ public class Board extends GridPane {
             grid.add(letters[i],i,0);
             grid.add(numbers[i],0,i);
             for(int j=0;j<10;j++){
-                Cell cell = new Cell(i,j,this);
+                Cell cell = new Cell(i,j);
                 cell.setFill(Color.LIGHTBLUE);
                 grid.add(cell, i+1, j+1);
                 cellList.add(cell);
@@ -49,7 +50,6 @@ public class Board extends GridPane {
         }
     }
 
-    // Metoda umieszcza statek przeciwnika zachowując zasady gry
     public void setShip(double shipTotalX, double shipTotalY, boolean vertical){
         List<Cell> cellsForShip = new ArrayList<>();
         boolean canPlaceShip = true;
@@ -64,7 +64,6 @@ public class Board extends GridPane {
             Cell droppedCell = new Cell(droppedCellX,droppedCellY);
             droppedCell.setAvaliable(true);
 
-            //Umieszczanie statku w poziomie
             if (!vertical) {
                 //Zakładając, że komputer zaczyna ukłądanie statku zawsze od 1ego kwadratu
                 double requiredOnTheRight = shipTotalX/20 - 1;
@@ -83,7 +82,6 @@ public class Board extends GridPane {
                     }
                 }
             } else {
-                // Zakładając, że komputer zaczyna ukłądanie statku zawsze od 1ego kwadratu
                 double requiredOnTheBottom = shipTotalY / 20 - 1;
 
                 // Zaznaczanie wymaganych w dół od miejsca upuszczenia statku
@@ -103,21 +101,7 @@ public class Board extends GridPane {
             //Ilość komórek w liście dla statku, musi być równa rozmiarowi statku
             //Sprawdza, czy żadne z potencajlnych pól statku nie zwróciło false, a następenie umieszcza statek na planszy
             if (canPlaceShip) {
-                if (cellsForShip.size()== shipTotalX/20 && !vertical) {
-                    for (Cell cell : this.getCellList()) {
-                        for (Cell cell1 : cellsForShip) {
-                            if (cell.getCellX() == cell1.getCellX() && cell.getCellY() == cell1.getCellY()) {
-                                cell.setAvaliable(false);
-                                cell.setHasShip(true);
-                                cellsWithShip.add(cell);
-                                if(!this.isEnemy()){
-                                    cell.setFill(Color.DARKBLUE);
-                                }
-                            }
-                        }
-                    }
-                    shipDone = true;
-                }else if(cellsForShip.size() == shipTotalY/20 && vertical){
+                if ((cellsForShip.size()== shipTotalX/20 && !vertical) || (cellsForShip.size() == shipTotalY/20 && vertical)) {
                     for (Cell cell : this.getCellList()) {
                         for (Cell cell1 : cellsForShip) {
                             if (cell.getCellX() == cell1.getCellX() && cell.getCellY() == cell1.getCellY()) {
@@ -138,7 +122,6 @@ public class Board extends GridPane {
         }
     }
 
-    // Ustalanie sąsiedzctwa dla statków
     public void setNeighborhood(List<Cell> cellsWithShip){
 
         for (Cell cell : cellsWithShip){

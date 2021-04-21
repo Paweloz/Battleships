@@ -9,8 +9,7 @@ import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
-/* Klasa odpowiadająca za tworzenie statku
-*/
+/* Klasa odpowiadająca za tworzenie statku */
 
 public class Ship extends Rectangle {
     private final int type;
@@ -23,10 +22,7 @@ public class Ship extends Rectangle {
     private double shipTotalX;
     private double shipTotalY;
 
-
-    // Konstruktor przyjmuje wielkość statku oraz jego kolor,
-// a następnie tworzy odpowiednią ilość kwadratów o zadanym rozmiarze i dodaje je do grupy
-    public Ship(double width, double height, Paint fill, int type, Board board) {
+    public Ship(double width, double height, Paint fill, int type) {
         super(width, height, fill);
         this.width = width;
         this.height = height;

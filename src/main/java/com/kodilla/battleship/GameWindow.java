@@ -5,14 +5,11 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-
-import java.util.Random;
 
 
 public class GameWindow {
@@ -23,8 +20,6 @@ public class GameWindow {
     private final Button start = new Button("Start");
     private final Button random = new Button("Randomize Ships");
     private final VBox storedShips = new VBox();
-
-
 
 
     public GameWindow(){
@@ -52,11 +47,11 @@ public class GameWindow {
         gamesBoards.toBack();
 
         //Creating Ships
-        Ship patrolBoat = new Ship(20,20, Color.DARKBLUE, 2, playerBoard);
-        Ship cruiser = new Ship(20,20, Color.DARKBLUE, 3, playerBoard);
-        Ship crusier2 = new Ship(20,20, Color.DARKBLUE, 3, playerBoard);
-        Ship battleship = new Ship(20,20, Color.DARKBLUE, 4, playerBoard);
-        Ship carrier = new Ship(20,20, Color.DARKBLUE, 5, playerBoard);
+        Ship patrolBoat = new Ship(20,20, Color.DARKBLUE, 2);
+        Ship cruiser = new Ship(20,20, Color.DARKBLUE, 3);
+        Ship crusier2 = new Ship(20,20, Color.DARKBLUE, 3);
+        Ship battleship = new Ship(20,20, Color.DARKBLUE, 4);
+        Ship carrier = new Ship(20,20, Color.DARKBLUE, 5);
 
         Move moveShip1 = new Move(patrolBoat,playerBoard);
         moveShip1.setShipMoves();
@@ -109,7 +104,6 @@ public class GameWindow {
         comunicates.toBack();
 
         //Placing everything into a BorderPane
-
         mainPane.setPadding(new Insets(10,10,10,10));
         mainPane.setRight(comunicates);
         mainPane.setCenter(storedShips);
