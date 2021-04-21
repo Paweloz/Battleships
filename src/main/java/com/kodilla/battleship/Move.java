@@ -17,8 +17,8 @@ public class Move {
     private double draggingY;
     private final Ship ship;
     private final Group shipGroup;
-    private static Board board;
-    List<Cell> cellsWithShip = new ArrayList<>();
+    private final Board board;
+    private final  List<Cell> cellsWithShip = new ArrayList<>();
     private static boolean enemyMissed = false;
     private static boolean notTheSameTarget = false;
     private static double enemyShootY;
@@ -27,18 +27,16 @@ public class Move {
     private static double previousY;
 
 
-
     public Move(Ship ship, Board board) {
         this.ship = ship;
         this.shipGroup = ship.getShip();
         this.board = board;
     }
 
-
     public void setShipMoves() {
         shipGroup.setOnMousePressed(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
-                Text rotationInfo = new Text("If you want to rotate your ship,\n do it before dropping");
+                Text rotationInfo = new Text("You can rotate your ship with right mouse button");
                 rotationInfo.setFont(new Font(20));
                 gameWindow.setComunicates(rotationInfo);
                 shipGroup.setMouseTransparent(true);
@@ -94,14 +92,13 @@ public class Move {
                 } catch (NullPointerException e) {
                     System.out.println();
                 }
-                setNeighborhood();
+                board.setNeighborhood(cellsWithShip);
 
             }
         });
     }
 
     public void setBoardReaction() {
-
         for (Cell cell : board.getCellList()) {
             cell.setOnMouseDragReleased(event -> {
                 if(event.getButton()==MouseButton.PRIMARY){
@@ -127,8 +124,9 @@ public class Move {
                 cell.setShipDroppedOn(false);
             }
         }
-        System.out.println(droppedCell.getCellX()+" "+droppedCell.getCellY());
-        // Zmiana kolejności liczenia pickedRectangle w zależoności od ilości obróceń statku
+
+        // Obrót statku o 180' powoduje zmiane kolejności kwadratów twrzących statek,
+        // i wymaga to wzięcia pod uwagę przy liczeniu 'pickedRectangle'
         if(shipGroup.getRotate() == 180 || shipGroup.getRotate()%360 == 180
                 || shipGroup.getRotate() == 270 || shipGroup.getRotate()%360==270){
             if(pickedRectangle==ship.getType()){
@@ -222,8 +220,8 @@ public class Move {
             }
         }
 
-        //Ilość komórek w liście dla statku, musi być równa rozmiarowi statku
-        //Sprawdza, czy żadne z potencajlnych pól statku nie zwróciło false, a następenie umieszcza statek na planszy
+        //Sprawdza, czy żadne z potencajlnych pól statku nie zwróciło false
+        //i jeśli ilość pól dla statku jest równa wielkości statku to umieszcza statek na planszy
         if (canPlaceShip) {
             if (cellList.size() == ship.getType()) {
                 for (Cell cell : board.getCellList()) {
@@ -241,6 +239,7 @@ public class Move {
                 Text shipPlaced = new Text("Ship placed succefully");
                 shipPlaced.setFont(new Font(20));
                 gameWindow.setComunicates(shipPlaced);
+                gameWindow.getRandom().setDisable(true);
             } else {
                 shipGroup.setVisible(true);
                 Text wrongPlace = new Text("You cannot place your ship here");
@@ -250,57 +249,18 @@ public class Move {
         }
     }
 
-    // Ustalanie sąsiedzctwa dla statków
-    public void setNeighborhood() {
-
-        for (Cell cell : cellsWithShip) {
-            Cell temp = new Cell(cell.getCellX(), cell.getCellY());
-            for (Cell cell1 : board.getCellList()) {
-                if (cell1.getCellX() == temp.getCellX() && cell1.getCellY() == temp.getCellY() - 1 && !cell1.containsShip()) {
-                    cell1.setFill(Color.LIGHTGRAY);
-                    cell1.setAvaliable(false);
-                }
-                if (cell1.getCellX() == temp.getCellX() && cell1.getCellY() == temp.getCellY() + 1 && !cell1.containsShip()) {
-                    cell1.setFill(Color.LIGHTGRAY);
-                    cell1.setAvaliable(false);
-                }
-                if (cell1.getCellX() == temp.getCellX() - 1 && cell1.getCellY() == temp.getCellY() && !cell1.containsShip()) {
-                    cell1.setFill(Color.LIGHTGRAY);
-                    cell1.setAvaliable(false);
-                }
-                if (cell1.getCellX() == temp.getCellX() + 1 && cell1.getCellY() == temp.getCellY() && !cell1.containsShip()) {
-                    cell1.setFill(Color.LIGHTGRAY);
-                    cell1.setAvaliable(false);
-                }
-                if (cell1.getCellX() == temp.getCellX() + 1 && cell1.getCellY() == temp.getCellY() + 1 && !cell1.containsShip()) {
-                    cell1.setFill(Color.LIGHTGRAY);
-                    cell1.setAvaliable(false);
-                }
-                if (cell1.getCellX() == temp.getCellX() + 1 && cell1.getCellY() == temp.getCellY() - 1 && !cell1.containsShip()) {
-                    cell1.setFill(Color.LIGHTGRAY);
-                    cell1.setAvaliable(false);
-                }
-                if (cell1.getCellX() == temp.getCellX() - 1 && cell1.getCellY() == temp.getCellY() + 1 && !cell1.containsShip()) {
-                    cell1.setFill(Color.LIGHTGRAY);
-                    cell1.setAvaliable(false);
-                }
-                if (cell1.getCellX() == temp.getCellX() - 1 && cell1.getCellY() == temp.getCellY() - 1 && !cell1.containsShip()) {
-                    cell1.setFill(Color.LIGHTGRAY);
-                    cell1.setAvaliable(false);
-                }
-            }
-        }
-    }
-
+    /* Jeśli statki są rozmieszczone poprawnie to uruchamia możliwość strzelania.
+     Strzelanie jest możliwe dopóki na jednej z planszy nie zostaną zniszczone wszystkie statki
+     Komputer strzela losowo, ale nie może strzelić 2 razy w to samo miejsce */
     public static void startGame(Board enemyBoard, Board playerBoard) {
 
 
         if (playerBoard.getShipsPlaced() == 5) {
             Text start = new Text("Game started!");
             start.setFont(new Font (20));
-
             gameWindow.setComunicates(start);
             gameWindow.setStoredShips();
+            gameWindow.getStart().setDisable(true);
 
             for (Cell cell : enemyBoard.getCellList()) {
                 cell.setOnMouseClicked(event -> {

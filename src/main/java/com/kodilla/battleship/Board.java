@@ -19,7 +19,6 @@ public class Board extends GridPane {
     private int shipsPlaced =0;
     public boolean containsShip;
 
-
     public Board(boolean enemy){
         this.enemy = enemy;
         grid.setGridLinesVisible(true);
@@ -46,24 +45,16 @@ public class Board extends GridPane {
         grid.add(numbers[10],0,10);
 
         if(enemy){
-            setEnemyShip( 100,20, false);
-            setNeighborhood();
-            setEnemyShip(20,80, true);
-            setNeighborhood();
-            setEnemyShip(20,60,true);
-            setNeighborhood();
-            setEnemyShip(60,20, false);
-            setNeighborhood();
-            setEnemyShip(40,20,false);
-            setNeighborhood();
+            this.randomizeShips();
         }
     }
 
     // Metoda umieszcza statek przeciwnika zachowując zasady gry
-    public void setEnemyShip(double shipTotalX, double shipTotalY, boolean vertical){
+    public void setShip(double shipTotalX, double shipTotalY, boolean vertical){
         List<Cell> cellsForShip = new ArrayList<>();
         boolean canPlaceShip = true;
         boolean shipDone = false;
+
 
         while (!shipDone) {
             Random generateX = new Random();
@@ -116,10 +107,12 @@ public class Board extends GridPane {
                     for (Cell cell : this.getCellList()) {
                         for (Cell cell1 : cellsForShip) {
                             if (cell.getCellX() == cell1.getCellX() && cell.getCellY() == cell1.getCellY()) {
-                               // cell.setFill(Color.DARKBLUE);
                                 cell.setAvaliable(false);
                                 cell.setHasShip(true);
                                 cellsWithShip.add(cell);
+                                if(!this.isEnemy()){
+                                    cell.setFill(Color.DARKBLUE);
+                                }
                             }
                         }
                     }
@@ -128,10 +121,12 @@ public class Board extends GridPane {
                     for (Cell cell : this.getCellList()) {
                         for (Cell cell1 : cellsForShip) {
                             if (cell.getCellX() == cell1.getCellX() && cell.getCellY() == cell1.getCellY()) {
-                               //cell.setFill(Color.DARKBLUE);
                                 cell.setAvaliable(false);
                                 cell.setHasShip(true);
                                 cellsWithShip.add(cell);
+                                if(!this.isEnemy()){
+                                    cell.setFill(Color.DARKBLUE);
+                                }
                             }
                         }
                     }
@@ -144,44 +139,74 @@ public class Board extends GridPane {
     }
 
     // Ustalanie sąsiedzctwa dla statków
-    public void setNeighborhood(){
+    public void setNeighborhood(List<Cell> cellsWithShip){
 
         for (Cell cell : cellsWithShip){
             Cell temp = new Cell(cell.getCellX(),cell.getCellY());
             for(Cell cell1 : this.getCellList()){
                 if(cell1.getCellX()==temp.getCellX() && cell1.getCellY() == temp.getCellY()-1 && !cell1.containsShip()){
-                    //cell1.setFill(Color.LIGHTGRAY);
                     cell1.setAvaliable(false);
+                    if(!this.isEnemy()){
+                        cell1.setFill(Color.LIGHTGRAY);
+                    }
                 }
                 if(cell1.getCellX()==temp.getCellX() && cell1.getCellY() == temp.getCellY()+1 && !cell1.containsShip()){
-                    //cell1.setFill(Color.LIGHTGRAY);
                     cell1.setAvaliable(false);
+                    if(!this.isEnemy()){
+                        cell1.setFill(Color.LIGHTGRAY);
+                    }
                 }
                 if(cell1.getCellX()==temp.getCellX()-1 && cell1.getCellY()==temp.getCellY() && !cell1.containsShip()){
-                    //cell1.setFill(Color.LIGHTGRAY);
                     cell1.setAvaliable(false);
+                    if(!this.isEnemy()){
+                        cell1.setFill(Color.LIGHTGRAY);
+                    }
                 }
                 if(cell1.getCellX()==temp.getCellX()+1 && cell1.getCellY()==temp.getCellY() && !cell1.containsShip()){
-                    //cell1.setFill(Color.LIGHTGRAY);
                     cell1.setAvaliable(false);
+                    if(!this.isEnemy()){
+                        cell1.setFill(Color.LIGHTGRAY);
+                    }
                 }
                 if(cell1.getCellX()==temp.getCellX()+1 && cell1.getCellY()==temp.getCellY()+1 && !cell1.containsShip()){
-                   // cell1.setFill(Color.LIGHTGRAY);
                     cell1.setAvaliable(false);
+                    if(!this.isEnemy()){
+                        cell1.setFill(Color.LIGHTGRAY);
+                    }
                 }
                 if(cell1.getCellX()==temp.getCellX()+1 && cell1.getCellY()==temp.getCellY()-1 && !cell1.containsShip()){
-                    //cell1.setFill(Color.LIGHTGRAY);
                     cell1.setAvaliable(false);
+                    if(!this.isEnemy()){
+                        cell1.setFill(Color.LIGHTGRAY);
+                    }
                 }if(cell1.getCellX()==temp.getCellX()-1 && cell1.getCellY()==temp.getCellY()+1 && !cell1.containsShip()){
-                    //cell1.setFill(Color.LIGHTGRAY);
                     cell1.setAvaliable(false);
+                    if(!this.isEnemy()){
+                        cell1.setFill(Color.LIGHTGRAY);
+                    }
                 }
                 if(cell1.getCellX()==temp.getCellX()-1 && cell1.getCellY()==temp.getCellY()-1 && !cell1.containsShip()){
-                    //cell1.setFill(Color.LIGHTGRAY);
                     cell1.setAvaliable(false);
+                    if(!this.isEnemy()){
+                        cell1.setFill(Color.LIGHTGRAY);
+                    }
                 }
             }
         }
+    }
+
+    public void randomizeShips(){
+        this.setShip(100, 20, false);
+        this.setNeighborhood(this.cellsWithShip);
+        this.setShip(20, 80, true);
+        this.setNeighborhood(this.cellsWithShip);
+        this.setShip(60, 20, false);
+        this.setNeighborhood(this.cellsWithShip);
+        this.setShip(20, 60, true);
+        this.setNeighborhood(this.cellsWithShip);
+        this.setShip(40, 20, false);
+        this.setNeighborhood(this.cellsWithShip);
+        this.setShipsPlaced(5);
     }
 
     public boolean hasNoShip(){

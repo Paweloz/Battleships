@@ -12,6 +12,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+import java.util.Random;
+
 
 public class GameWindow {
     private final BorderPane mainPane = new BorderPane();
@@ -19,6 +21,7 @@ public class GameWindow {
     private final Board enemyBoard = new Board(true);
     private final TextFlow comunicates = new TextFlow();
     private final Button start = new Button("Start");
+    private final Button random = new Button("Randomize Ships");
     private final VBox storedShips = new VBox();
 
 
@@ -77,7 +80,6 @@ public class GameWindow {
         moveShip5.setGameWindow(this);
 
         //Placing ships into a VBox
-
         labelPatrolBoat.setFont(new Font(15));
         labelCruiser.setFont(new Font(15));
         labelCruiser2.setFont(new Font(15));
@@ -88,26 +90,16 @@ public class GameWindow {
         storedShips.setPadding(new Insets(10,10,10,50));
         storedShips.setSpacing(10);
         storedShips.setAlignment(Pos.CENTER_LEFT);
-//TODO Move this to other class
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        storedShips.setOnMousePressed(event -> {
-                storedShips.setMouseTransparent(true);
-               // event.setDragDetect(true);
-
-        });
-
-       //storedShips.setOnDragDetected(event -> storedShips.startFullDrag());
-
-       // storedShips.setOnMouseDragged(event -> event.setDragDetect(false));
-
-
-        storedShips.setOnMouseReleased(event -> {
-                storedShips.setMouseTransparent(false);
-        });
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        storedShips.setOnMousePressed(event -> storedShips.setMouseTransparent(true));
+        storedShips.setOnMouseReleased(event -> storedShips.setMouseTransparent(false));
 
         start.setOnAction(event -> Move.startGame(enemyBoard,playerBoard));
         start.setPrefSize(100,20);
+        random.setOnAction(event -> {
+                playerBoard.randomizeShips();
+                storedShips.getChildren().clear();
+                random.setDisable(true);
+        });
 
         //Setting a place for messages
         Text welcome = new Text("Welcome to battleships\nPlease place your ships");
@@ -123,8 +115,6 @@ public class GameWindow {
         mainPane.setCenter(storedShips);
         mainPane.setLeft(gamesBoards);
         mainPane.setBackground(background);
-
-
     }
 
     public void setComunicates(Text comunicates) {
@@ -134,6 +124,10 @@ public class GameWindow {
 
     public Button getStart() {
         return start;
+    }
+
+    public Button getRandom() {
+        return random;
     }
 
     public void setMainWindow(Main mainWindow) {

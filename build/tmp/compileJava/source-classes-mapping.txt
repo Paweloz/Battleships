@@ -1,21 +1,17 @@
-com/kodilla/battleship/PopUpWindow.java
- com.kodilla.battleship.PopUpWindow
-com/kodilla/battleship/Brudnopis.java
- com.kodilla.battleship.Brudnopis
- com.kodilla.battleship.Brudnopis$1
- com.kodilla.battleship.Brudnopis$Cell
-com/kodilla/battleship/InstructionWindow.java
- com.kodilla.battleship.InstructionWindow
-com/kodilla/battleship/Cell.java
- com.kodilla.battleship.Cell
 module-info.java
  module-info
+com/kodilla/battleship/PopUpWindow.java
+ com.kodilla.battleship.PopUpWindow
+com/kodilla/battleship/InstructionWindow.java
+ com.kodilla.battleship.InstructionWindow
+com/kodilla/battleship/Main.java
+ com.kodilla.battleship.Main
 com/kodilla/battleship/Board.java
  com.kodilla.battleship.Board
 com/kodilla/battleship/Ship.java
  com.kodilla.battleship.Ship
-com/kodilla/battleship/Main.java
- com.kodilla.battleship.Main
+com/kodilla/battleship/Cell.java
+ com.kodilla.battleship.Cell
 com/kodilla/battleship/Move.java
  com.kodilla.battleship.Move
 com/kodilla/battleship/GameWindow.java

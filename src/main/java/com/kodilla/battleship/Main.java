@@ -32,7 +32,7 @@ public class Main extends Application {
             Button instruction = new Button("Instruction");
             instruction.setOnAction(event ->primaryStage.setScene(instructionScene));
 
-            Button startGame = new Button("Start Game");
+            Button startGame = new Button("Game");
             startGame.setOnAction(event -> primaryStage.setScene(gameScene));
 
             Button quitGame = new Button("Quit Game");
@@ -76,7 +76,7 @@ public class Main extends Application {
             GameWindow gameWindow = new GameWindow();
             gameWindow.setMainWindow(this);
             BorderPane gameLayout = gameWindow.getMainPane();
-            HBox bottomButtons = new HBox(gameWindow.getStart() ,returnButton2);
+            HBox bottomButtons = new HBox(gameWindow.getStart(), gameWindow.getRandom() ,returnButton2);
             bottomButtons.setAlignment(Pos.BOTTOM_RIGHT);
             bottomButtons.setPadding(new Insets(10,200,10,0));
             bottomButtons.setSpacing(20);
