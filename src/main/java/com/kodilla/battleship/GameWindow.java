@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -87,17 +88,22 @@ public class GameWindow {
         storedShips.setPadding(new Insets(10,10,10,50));
         storedShips.setSpacing(10);
         storedShips.setAlignment(Pos.CENTER_LEFT);
-
+//TODO Move this to other class
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         storedShips.setOnMousePressed(event -> {
                 storedShips.setMouseTransparent(true);
-                event.setDragDetect(true);
+               // event.setDragDetect(true);
+
         });
 
-        storedShips.setOnDragDetected(event -> storedShips.startFullDrag());
+       //storedShips.setOnDragDetected(event -> storedShips.startFullDrag());
+
+       // storedShips.setOnMouseDragged(event -> event.setDragDetect(false));
 
 
-        storedShips.setOnMouseReleased(event -> storedShips.setMouseTransparent(false));
+        storedShips.setOnMouseReleased(event -> {
+                storedShips.setMouseTransparent(false);
+        });
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         start.setOnAction(event -> Move.startGame(enemyBoard,playerBoard));

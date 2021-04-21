@@ -14,9 +14,9 @@ com/kodilla/battleship/Board.java
  com.kodilla.battleship.Board
 com/kodilla/battleship/Ship.java
  com.kodilla.battleship.Ship
+com/kodilla/battleship/Main.java
+ com.kodilla.battleship.Main
 com/kodilla/battleship/Move.java
  com.kodilla.battleship.Move
 com/kodilla/battleship/GameWindow.java
  com.kodilla.battleship.GameWindow
-com/kodilla/battleship/Main.java
- com.kodilla.battleship.Main

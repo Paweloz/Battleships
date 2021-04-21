@@ -6,7 +6,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -15,7 +14,7 @@ import java.util.Random;
 public class Board extends GridPane {
     private final boolean enemy;
     private final GridPane grid = new GridPane();
-    private final List<Cell> cellList = new LinkedList<>();
+    private final List<Cell> cellList = new ArrayList<>();
     private final List<Cell> cellsWithShip = new ArrayList<>();
     private int shipsPlaced =0;
     public boolean containsShip;
@@ -62,7 +61,7 @@ public class Board extends GridPane {
 
     // Metoda umieszcza statek przeciwnika zachowując zasady gry
     public void setEnemyShip(double shipTotalX, double shipTotalY, boolean vertical){
-        List<Cell> cellsForShip = new LinkedList<>();
+        List<Cell> cellsForShip = new ArrayList<>();
         boolean canPlaceShip = true;
         boolean shipDone = false;
 

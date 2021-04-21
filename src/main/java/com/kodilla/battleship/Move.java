@@ -7,10 +7,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+
+import java.util.*;
 
 /* Klasa udostępniajaca funkcjonalność ruchu dla statków oraz reakcji dla planszy */
 public class Move {
@@ -20,7 +18,7 @@ public class Move {
     private final Ship ship;
     private final Group shipGroup;
     private static Board board;
-    List<Cell> cellsWithShip = new LinkedList<>();
+    List<Cell> cellsWithShip = new ArrayList<>();
     private static boolean enemyMissed = false;
     private static boolean notTheSameTarget = false;
     private static double enemyShootY;
@@ -40,7 +38,7 @@ public class Move {
     public void setShipMoves() {
         shipGroup.setOnMousePressed(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
-                Text rotationInfo = new Text("You can rotate ship with right mouse button");
+                Text rotationInfo = new Text("If you want to rotate your ship,\n do it before dropping");
                 rotationInfo.setFont(new Font(20));
                 gameWindow.setComunicates(rotationInfo);
                 shipGroup.setMouseTransparent(true);
@@ -54,18 +52,15 @@ public class Move {
                 draggingX = shipGroup.getTranslateX() - event.getSceneX();
                 draggingY = shipGroup.getTranslateY() - event.getSceneY();
             } else if (event.getButton() == MouseButton.SECONDARY) {
-                ship.setVertical(true);
                 draggingX = shipGroup.getTranslateX() - event.getSceneX();
                 draggingY = shipGroup.getTranslateY() - event.getSceneY();
-                ship.setShipTotalX(ship.getShipHeight());
-                ship.setShipTotalY(ship.getShipWidth() * ship.getType());
-
                 shipGroup.setRotate(shipGroup.getRotate() + 90);
                 if(shipGroup.getRotate() == 90 || shipGroup.getRotate() == 270 || shipGroup.getRotate()%360==90 ||
                          shipGroup.getRotate()%360==270){
                     ship.setVertical(true);
                     ship.setShipTotalX(ship.getShipHeight());
                     ship.setShipTotalY(ship.getShipWidth() * ship.getType());
+
                 }else {
                     ship.setVertical(false);
                     ship.setShipTotalX(ship.getShipWidth() * ship.getType());
@@ -75,14 +70,20 @@ public class Move {
         });
 
 
-        shipGroup.setOnDragDetected(event -> shipGroup.startFullDrag());
+        shipGroup.setOnDragDetected(event -> {
+            if (event.getButton()==MouseButton.PRIMARY){
+                shipGroup.startFullDrag();
+            }
+        });
 
 
         shipGroup.setOnMouseDragged(event -> {
-            shipGroup.getParent().toFront();
-            shipGroup.setTranslateX(event.getSceneX() + draggingX);
-            shipGroup.setTranslateY(event.getSceneY() + draggingY);
-            event.setDragDetect(false);
+            if (event.getButton()==MouseButton.PRIMARY) {
+                shipGroup.getParent().toFront();
+                shipGroup.setTranslateX(event.getSceneX() + draggingX);
+                shipGroup.setTranslateY(event.getSceneY() + draggingY);
+                event.setDragDetect(false);
+            }
         });
 
         shipGroup.setOnMouseReleased(event -> {
@@ -102,7 +103,11 @@ public class Move {
     public void setBoardReaction() {
 
         for (Cell cell : board.getCellList()) {
-            cell.setOnMouseDragReleased(event -> cell.setShipDroppedOn(true));
+            cell.setOnMouseDragReleased(event -> {
+                if(event.getButton()==MouseButton.PRIMARY){
+                    cell.setShipDroppedOn(true);
+                }
+            });
         }
     }
 
@@ -110,7 +115,7 @@ public class Move {
     // Metoda sprawdzajaca możliwość upuszczenia statku na planszy
     public void placeShip(int pickedRectangle, double shipTotalX, double shipTotalY, @NotNull Board board, boolean vertical) {
         Cell droppedCell = null;
-        List<Cell> cellList = new LinkedList<>();
+        List<Cell> cellList = new ArrayList<>();
         boolean canPlaceShip = true;
 
         // Przeszukuje plansze w poszukiwaniu komórki na którą spadł statek
@@ -122,6 +127,7 @@ public class Move {
                 cell.setShipDroppedOn(false);
             }
         }
+        System.out.println(droppedCell.getCellX()+" "+droppedCell.getCellY());
         // Zmiana kolejności liczenia pickedRectangle w zależoności od ilości obróceń statku
         if(shipGroup.getRotate() == 180 || shipGroup.getRotate()%360 == 180
                 || shipGroup.getRotate() == 270 || shipGroup.getRotate()%360==270){
@@ -148,7 +154,7 @@ public class Move {
             double requiredOnTheLeft = pickedRectangle - 1;
             double requiredOnTheRight = shipTotalX / 20 - pickedRectangle;
 
-            assert droppedCell != null;
+
             if (droppedCell.isAvaliable()) {
                 //Zaznaczanie wymaganych pól na lewo od miejsca upuszczcenia statu
                 for (double i = droppedCell.getCellX(); i >= (droppedCell.getCellX() - requiredOnTheLeft); i--) {
@@ -182,7 +188,6 @@ public class Move {
             double requiredOnTheTop = pickedRectangle - 1;
             double requiredOnTheBottom = shipTotalY / 20 - pickedRectangle;
 
-            assert droppedCell != null;
             if (droppedCell.isAvaliable()) {
                 for (Cell cell : board.getCellList()) {
                     if (cell.equals(droppedCell)) {
