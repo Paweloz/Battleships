@@ -16,8 +16,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
     private Scene scene,gameScene, instructionScene ;
     private Stage stage;
-    public static void main(String[] args) {
-        launch(args);
+    public static void main(String[] args) { launch(args);
     }
 
     @Override
@@ -113,4 +112,5 @@ public class Main extends Application {
         gameLayout.setBottom(bottomButtons);
         gameScene = new Scene(gameLayout,750,650);
     }
+
 }
