@@ -2,11 +2,9 @@ package com.kodilla.battleship;
 
 import javafx.scene.Group;
 import javafx.scene.input.MouseButton;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -85,7 +83,7 @@ public class Action {
             if (event.getButton() == MouseButton.PRIMARY) {
                 shipGroup.setMouseTransparent(false);
                 try {
-                    logic.placeShip(ship.getPickedRectangle(), ship.getShipTotalX(), ship.getShipTotalY(), board, ship.isVertical(), shipGroup, ship);
+                    logic.findSpaceForShip(ship.getPickedRectangle(), ship.getShipTotalX(), ship.getShipTotalY(), board, ship.isVertical(), shipGroup, ship);
                 } catch (NullPointerException e) {
                     System.out.println();
                 }

@@ -21,7 +21,7 @@ public class Logic {
     private static double previousY;
 
     // Metoda sprawdzajaca możliwość upuszczenia statku na planszy
-    public void placeShip(int pickedRectangle, double shipTotalX, double shipTotalY, @NotNull Board board, boolean vertical, Group shipGroup, Ship ship) {
+    public void findSpaceForShip(int pickedRectangle, double shipTotalX, double shipTotalY, @NotNull Board board, boolean vertical, Group shipGroup, Ship ship) {
         Cell droppedCell = null;
         List<Cell> cellList = new ArrayList<>();
         boolean canPlaceShip = true;
@@ -128,6 +128,10 @@ public class Logic {
 
         //Sprawdza, czy żadne z potencajlnych pól statku nie zwróciło false
         //i jeśli ilość pól dla statku jest równa wielkości statku to umieszcza statek na planszy
+        placeShip(board, shipGroup, ship, cellList, canPlaceShip);
+    }
+
+    private void placeShip(@NotNull Board board, Group shipGroup, Ship ship, List<Cell> cellList, boolean canPlaceShip) {
         if (canPlaceShip) {
             if (cellList.size() == ship.getType()) {
                 for (Cell cell : board.getCellList()) {
@@ -190,36 +194,7 @@ public class Logic {
                         gameWindow.setComunicates(missed);
 
                         //Strzelanie komputera
-                        while (!enemyMissed) {
-                            while (!notTheSameTarget) {
-                                Random generateX = new Random();
-                                Random generateY = new Random();
-                                enemyShootX = generateX.nextInt(10);
-                                enemyShootY = generateY.nextInt(10);
-                                if (previousX != enemyShootX || previousY != enemyShootY) {
-                                    notTheSameTarget = true;
-                                }
-                            }
-                            notTheSameTarget = false;
-                            previousX = enemyShootX;
-                            previousY = enemyShootY;
-                            for (Cell cell1 : playerBoard.getCellList()) {
-                                if (cell1.getCellX() == enemyShootX && cell1.getCellY() == enemyShootY) {
-                                    if (cell1.containsShip() && cell1.neverShot()) {
-                                        cell1.setWasShot(true);
-                                        cell1.setHasShip(false);
-                                        cell1.setFill(Color.RED);
-                                        Text enemyHit = new Text("Bad news, enemy just set your ship on fire");
-                                        enemyHit.setFont(new Font (20));
-                                        gameWindow.setComunicates(enemyHit);
-                                    } else if (!cell1.containsShip() && cell1.neverShot()) {
-                                        cell1.setWasShot(true);
-                                        cell1.setFill(Color.BLACK);
-                                        enemyMissed = true;
-                                    }
-                                }
-                            }
-                        }
+                        cpuShooting(playerBoard);
                     }
                     if (enemyBoard.hasNoShip()){
                         for (Cell cell1 : enemyBoard.getCellList()) {
@@ -239,6 +214,39 @@ public class Logic {
             Text text = new Text("Please place your all ships");
             text.setFont(new Font(20));
             gameWindow.setComunicates(text);
+        }
+    }
+
+    private static void cpuShooting(Board playerBoard) {
+        while (!enemyMissed) {
+            while (!notTheSameTarget) {
+                Random generateX = new Random();
+                Random generateY = new Random();
+                enemyShootX = generateX.nextInt(10);
+                enemyShootY = generateY.nextInt(10);
+                if (previousX != enemyShootX || previousY != enemyShootY) {
+                    notTheSameTarget = true;
+                }
+            }
+            notTheSameTarget = false;
+            previousX = enemyShootX;
+            previousY = enemyShootY;
+            for (Cell cell1 : playerBoard.getCellList()) {
+                if (cell1.getCellX() == enemyShootX && cell1.getCellY() == enemyShootY) {
+                    if (cell1.containsShip() && cell1.neverShot()) {
+                        cell1.setWasShot(true);
+                        cell1.setHasShip(false);
+                        cell1.setFill(Color.RED);
+                        Text enemyHit = new Text("Bad news, enemy just set your ship on fire");
+                        enemyHit.setFont(new Font (20));
+                        gameWindow.setComunicates(enemyHit);
+                    } else if (!cell1.containsShip() && cell1.neverShot()) {
+                        cell1.setWasShot(true);
+                        cell1.setFill(Color.BLACK);
+                        enemyMissed = true;
+                    }
+                }
+            }
         }
     }
 
