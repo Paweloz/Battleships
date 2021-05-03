@@ -26,8 +26,10 @@ public class GameWindow {
 
     public GameWindow(){
         Image imageback = new Image("file:src/main/resources/GameWindowBackground.jpg");
-        BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, true);
-        BackgroundImage backgroundImage = new BackgroundImage(imageback, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
+        BackgroundSize backgroundSize = new BackgroundSize(100, 100, true,
+                true, true, true);
+        BackgroundImage backgroundImage = new BackgroundImage(imageback, BackgroundRepeat.REPEAT,
+                BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
         Background background = new Background(backgroundImage);
 
         //Placing board with labels
@@ -55,26 +57,26 @@ public class GameWindow {
         Ship battleship = new Ship(20,20, Color.DARKBLUE, 4);
         Ship carrier = new Ship(20,20, Color.DARKBLUE, 5);
 
-        Action actionShip1 = new Action(patrolBoat,playerBoard);
-        actionShip1.setShipMoves();
-        actionShip1.setBoardReaction();
-        actionShip1.setGameWindow(this);
-        Action actionShip2 = new Action(cruiser,playerBoard);
-        actionShip2.setShipMoves();
-        actionShip2.setBoardReaction();
-        actionShip2.setGameWindow(this);
-        Action actionShip3 = new Action(crusier2,playerBoard);
-        actionShip3.setShipMoves();
-        actionShip3.setBoardReaction();
-        actionShip3.setGameWindow(this);
-        Action actionShip4 = new Action(battleship,playerBoard);
-        actionShip4.setShipMoves();
-        actionShip4.setBoardReaction();
-        actionShip4.setGameWindow(this);
-        Action actionShip5 = new Action(carrier,playerBoard);
-        actionShip5.setShipMoves();
-        actionShip5.setBoardReaction();
-        actionShip5.setGameWindow(this);
+        MouseAction mouseActionShip1 = new MouseAction(patrolBoat,playerBoard);
+        mouseActionShip1.setShipMoves();
+        mouseActionShip1.setBoardReaction();
+        mouseActionShip1.setGameWindow(this);
+        MouseAction mouseActionShip2 = new MouseAction(cruiser,playerBoard);
+        mouseActionShip2.setShipMoves();
+        mouseActionShip2.setBoardReaction();
+        mouseActionShip2.setGameWindow(this);
+        MouseAction mouseActionShip3 = new MouseAction(crusier2,playerBoard);
+        mouseActionShip3.setShipMoves();
+        mouseActionShip3.setBoardReaction();
+        mouseActionShip3.setGameWindow(this);
+        MouseAction mouseActionShip4 = new MouseAction(battleship,playerBoard);
+        mouseActionShip4.setShipMoves();
+        mouseActionShip4.setBoardReaction();
+        mouseActionShip4.setGameWindow(this);
+        MouseAction mouseActionShip5 = new MouseAction(carrier,playerBoard);
+        mouseActionShip5.setShipMoves();
+        mouseActionShip5.setBoardReaction();
+        mouseActionShip5.setGameWindow(this);
 
         //Placing ships into a VBox
         labelPatrolBoat.setFont(new Font(15));
@@ -83,7 +85,9 @@ public class GameWindow {
         labelBattleship.setFont(new Font(15));
         labelCarrier.setFont(new Font(15));
 
-        storedShips.getChildren().addAll(patrolBoat.getShip(), labelPatrolBoat, cruiser.getShip(), labelCruiser, crusier2.getShip(), labelCruiser2, battleship.getShip(), labelBattleship, carrier.getShip(), labelCarrier);
+        storedShips.getChildren().addAll(patrolBoat.getShip(), labelPatrolBoat,
+                cruiser.getShip(), labelCruiser, crusier2.getShip(), labelCruiser2,
+                battleship.getShip(), labelBattleship, carrier.getShip(), labelCarrier);
         storedShips.setPadding(new Insets(10,10,10,50));
         storedShips.setSpacing(10);
         storedShips.setAlignment(Pos.CENTER_LEFT);
@@ -91,7 +95,7 @@ public class GameWindow {
         storedShips.setOnMouseReleased(event -> storedShips.setMouseTransparent(false));
 
         logic.setGameWindow(this);
-        start.setOnAction(event -> Logic.startGame(enemyBoard,playerBoard));
+        start.setOnAction(event -> logic.startGame(enemyBoard,playerBoard));
         start.setPrefSize(100,20);
         random.setOnAction(event -> {
                 playerBoard.randomizeShips();
@@ -129,7 +133,6 @@ public class GameWindow {
 
     public void setMainWindow(Main mainWindow) {
     }
-
     public BorderPane getMainPane() {
         return mainPane;
     }

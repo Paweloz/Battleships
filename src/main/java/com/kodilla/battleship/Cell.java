@@ -3,8 +3,6 @@ package com.kodilla.battleship;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-/* Klasa odpowiadająca za tworzenie poszczególnych komórek planszy. */
-
 public class Cell extends Rectangle {
 
     public double x, y;
@@ -12,7 +10,6 @@ public class Cell extends Rectangle {
     public boolean shipDroppedOn;
     public boolean avaliable = true;
     public boolean wasShot = false;
-
 
     public Cell(double x, double y) {
         super(20, 20);

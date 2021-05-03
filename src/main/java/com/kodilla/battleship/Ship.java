@@ -5,11 +5,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-
 import java.util.ArrayList;
 import java.util.List;
-
-/* Klasa odpowiadająca za tworzenie statku */
 
 public class Ship extends Rectangle {
     private final int type;

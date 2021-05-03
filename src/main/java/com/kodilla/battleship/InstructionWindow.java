@@ -8,14 +8,18 @@ import javafx.scene.text.Text;
 
 public class InstructionWindow {
     Image imageback = new Image("file:src/main/resources/battleship.gif");
-    BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, true);
-    BackgroundImage backgroundImage = new BackgroundImage(imageback, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
+    BackgroundSize backgroundSize = new BackgroundSize(100, 100, true,
+            true, true, true);
+    BackgroundImage backgroundImage = new BackgroundImage(imageback, BackgroundRepeat.REPEAT,
+            BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
     Background background = new Background(backgroundImage);
 
     Text instruction = new Text("PLACING SHIPS\n\nUse left mouse button to drag and drop your ship on board\n" +
-            "You can rotate your ship with right mouse button\nOnce you drop ship onto a board, you cannot change it's position\n" +
+            "You can rotate your ship with right mouse button\n" +
+            "Once you drop ship onto a board, you cannot change it's position\n" +
             "You need to have atleast one space gap between your ships\n\n" +
-            "SHOOTING\n\nYou have to place all the ships on board, before start shooting\nWhen you finish placing ships, press" +
+            "SHOOTING\n\nYou have to place all the ships on board, before start shooting\n" +
+            "When you finish placing ships, press" +
             " \"start\"button to begin\nYou shot first. If anyone hit the ship,\n" +
             " you keeps shooting, unitl you miss\n\n Game is over when one of the players lost all the ships\n\n\n" +
             "GOOD LUCK ;)");

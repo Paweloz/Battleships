@@ -24,8 +24,10 @@ public class Main extends Application {
         stage = primaryStage;
         try {
             Image imageback = new Image("file:src/main/resources/Battleships.png");
-            BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, true);
-            BackgroundImage backgroundImage = new BackgroundImage(imageback, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
+            BackgroundSize backgroundSize = new BackgroundSize(100, 100, true,
+                    true, true, true);
+            BackgroundImage backgroundImage = new BackgroundImage(imageback, BackgroundRepeat.REPEAT,
+                    BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
             Background background = new Background(backgroundImage);
 
 

@@ -19,6 +19,13 @@ public class Board extends GridPane {
     private final List<Cell> cellsWithShip = new ArrayList<>();
     private int shipsPlaced =0;
     public boolean containsShip;
+    private final Text[] numbers = {new Text("   "), new Text(" 1"), new Text(" 2"), new Text(" 3"),
+            new Text(" 4"), new Text(" 5"), new Text(" 6"),
+            new Text(" 7"), new Text(" 8"), new Text(" 9"), new Text(" 10")};
+    private final Text[] letters = {new Text("   "), new Text("  A"), new Text("  B"), new Text("  C"),
+            new Text("  D"), new Text("  E"), new Text("  F"),
+            new Text("  G"), new Text("  H"), new Text("  I"), new Text("  J")};
+
 
     public Board(boolean enemy){
         this.enemy = enemy;
@@ -28,10 +35,6 @@ public class Board extends GridPane {
         grid.setVgap(1);
         grid.toBack();
 
-        Text[] numbers = {new Text("   "), new Text(" 1"), new Text(" 2"), new Text(" 3"), new Text(" 4"), new Text(" 5"), new Text(" 6"),
-                new Text(" 7"), new Text(" 8"), new Text(" 9"), new Text(" 10")};
-        Text[] letters = {new Text("   "), new Text("  A"), new Text("  B"), new Text("  C"), new Text("  D"), new Text("  E"), new Text("  F"),
-                new Text("  G"), new Text("  H"), new Text("  I"), new Text("  J")};
         for(int i = 0; i<10; i++){
             grid.add(letters[i],i,0);
             grid.add(numbers[i],0,i);
@@ -44,7 +47,6 @@ public class Board extends GridPane {
         }
         grid.add(letters[10],10,0);
         grid.add(numbers[10],0,10);
-
         if(enemy){
             this.randomizeShips();
         }
@@ -54,7 +56,6 @@ public class Board extends GridPane {
         List<Cell> cellsForShip = new ArrayList<>();
         boolean canPlaceShip = true;
         boolean shipDone = false;
-
 
         while (!shipDone) {
             Random generateX = new Random();
@@ -101,7 +102,8 @@ public class Board extends GridPane {
             //Ilość komórek w liście dla statku, musi być równa rozmiarowi statku
             //Sprawdza, czy żadne z potencajlnych pól statku nie zwróciło false, a następenie umieszcza statek na planszy
             if (canPlaceShip) {
-                if ((cellsForShip.size()== shipTotalX/20 && !vertical) || (cellsForShip.size() == shipTotalY/20 && vertical)) {
+                if ((cellsForShip.size()== shipTotalX/20 && !vertical) ||
+                        (cellsForShip.size() == shipTotalY/20 && vertical)) {
                     for (Cell cell : this.getCellList()) {
                         for (Cell cell1 : cellsForShip) {
                             if (cell.getCellX() == cell1.getCellX() && cell.getCellY() == cell1.getCellY()) {

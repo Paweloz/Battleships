@@ -1,20 +1,20 @@
+com/kodilla/battleship/PopUpWindow.java
+ com.kodilla.battleship.PopUpWindow
+com/kodilla/battleship/Cell.java
+ com.kodilla.battleship.Cell
 com/kodilla/battleship/Board.java
  com.kodilla.battleship.Board
 com/kodilla/battleship/Ship.java
  com.kodilla.battleship.Ship
-com/kodilla/battleship/InstructionWindow.java
- com.kodilla.battleship.InstructionWindow
-com/kodilla/battleship/Cell.java
- com.kodilla.battleship.Cell
-com/kodilla/battleship/PopUpWindow.java
- com.kodilla.battleship.PopUpWindow
 module-info.java
  module-info
+com/kodilla/battleship/InstructionWindow.java
+ com.kodilla.battleship.InstructionWindow
 com/kodilla/battleship/Main.java
  com.kodilla.battleship.Main
 com/kodilla/battleship/Logic.java
  com.kodilla.battleship.Logic
-com/kodilla/battleship/Action.java
- com.kodilla.battleship.Action
+com/kodilla/battleship/MouseAction.java
+ com.kodilla.battleship.MouseAction
 com/kodilla/battleship/GameWindow.java
  com.kodilla.battleship.GameWindow

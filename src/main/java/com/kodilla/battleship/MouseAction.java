@@ -5,14 +5,10 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-
 import java.util.*;
 
-/* Klasa udostępniajaca funkcjonalność ruchu dla statków oraz reakcji dla planszy
-*  Zawiera metode sprawdzającą możliwość położenia statku przez gracza,
-*  oraz metodę uruchamiającą rozgrywkę */
-public class Action {
-    private static GameWindow gameWindow;
+public class MouseAction {
+    private GameWindow gameWindow;
     private double draggingX;
     private double draggingY;
     private final Ship ship;
@@ -22,7 +18,7 @@ public class Action {
     private final Logic logic = new Logic();
 
 
-    public Action(Ship ship, Board board) {
+    public MouseAction(Ship ship, Board board) {
         this.ship = ship;
         this.shipGroup = ship.getShip();
         this.board = board;
@@ -48,7 +44,9 @@ public class Action {
                 draggingX = shipGroup.getTranslateX() - event.getSceneX();
                 draggingY = shipGroup.getTranslateY() - event.getSceneY();
                 shipGroup.setRotate(shipGroup.getRotate() + 90);
-                if (shipGroup.getRotate() == 90 || shipGroup.getRotate() == 270 || shipGroup.getRotate() % 360 == 90 ||
+                if (shipGroup.getRotate() == 90 ||
+                        shipGroup.getRotate() == 270 ||
+                        shipGroup.getRotate() % 360 == 90 ||
                         shipGroup.getRotate() % 360 == 270) {
                     ship.setVertical(true);
                     ship.setShipTotalX(ship.getShipHeight());
@@ -82,12 +80,8 @@ public class Action {
         shipGroup.setOnMouseReleased(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
                 shipGroup.setMouseTransparent(false);
-                try {
-                    logic.findSpaceForShip(ship.getPickedRectangle(), ship.getShipTotalX(), ship.getShipTotalY(), board, ship.isVertical(), shipGroup, ship);
-                } catch (NullPointerException e) {
-                    System.out.println();
-                }
-
+                    logic.findSpaceForShip(ship.getPickedRectangle(), ship.getShipTotalX(),
+                            ship.getShipTotalY(), board, ship.isVertical(), shipGroup, ship);
             }
         });
     }
